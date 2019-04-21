@@ -22,17 +22,27 @@ public class EnemySprite extends CreatureSprite {
     }
 
     public void update() {
+        mapCoordinates = getCoordinatesAfterUpdate();
         if (is_moving) {
-            Point currentPoint = behavior.get(currentMove++);
-            currentMove = currentMove == behaviorDuration ? 0 : currentMove;
-            mapX += currentPoint.x;
-            mapY += currentPoint.y;
-            x += stepLength * currentPoint.x;
-            y += stepLength * currentPoint.y;
+            screenCoordinates.x += behavior.get(currentMove).x * MapSprite.getTileSize();
+            screenCoordinates.y += behavior.get(currentMove).y * MapSprite.getTileSize();
+            currentMove++;
+            currentMove = (currentMove == behaviorDuration) ? 0 : currentMove;
             is_moving = false;
         } else {
             is_moving = true;
         }
     }
 
+    public Point getCoordinatesAfterUpdate() {
+        Point updatedCoordinates = new Point();
+        updatedCoordinates.x = mapCoordinates.x;
+        updatedCoordinates.y = mapCoordinates.y;
+        if (is_moving) {
+            Point nextMove = behavior.get(currentMove);
+            updatedCoordinates.x += nextMove.x;
+            updatedCoordinates.y += nextMove.y;
+        }
+        return updatedCoordinates;
+    }
 }

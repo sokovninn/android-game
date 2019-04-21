@@ -19,7 +19,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
     static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private Point point = new Point();
-    private boolean movingPlayer = false;
+    private boolean playerIsMoving = false;
 
     public GameView(Context context) {
         super(context);
@@ -33,16 +33,12 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                movingPlayer = true;
+                playerIsMoving = true;
                 point.set((int)event.getX(),(int)event.getY());
                 break;
-
             case MotionEvent.ACTION_MOVE:
-
                 break;
-
             case MotionEvent.ACTION_UP:
-
                 break;
         }
         return true;
@@ -72,7 +68,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
         enemyBehavior.add(new Point(-1, 0));
         enemyBehavior.add(new Point(0, -1));
         enemySprite = new EnemySprite(BitmapFactory.decodeResource(getResources(), R.drawable.tiny_skelly), mapSprite, enemyBehavior);
-        enemySprite.setPosition(2, 1);
+        enemySprite.setMapCoordinates(2, 1);
 
 
     }
@@ -101,15 +97,13 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
         mapSprite.draw(canvas);
         characterSprite.draw(canvas);
         enemySprite.draw(canvas);
-
-
     }
 
     public void update() {
-        if (movingPlayer) {
+        if (playerIsMoving) {
             characterSprite.update(point);
             enemySprite.update();
-            movingPlayer = false;
+            playerIsMoving = false;
         }
     }
 }

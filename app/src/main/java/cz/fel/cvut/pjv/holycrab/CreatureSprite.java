@@ -2,14 +2,15 @@ package cz.fel.cvut.pjv.holycrab;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Point;
 
 public abstract class CreatureSprite {
     protected Bitmap spriteSheet;
     protected Bitmap creatureFront;
     protected MapSprite map;
     protected int[][] mapArray;
-    protected int x, y;
-    protected int mapX, mapY;
+    protected Point screenCoordinates;
+    protected Point mapCoordinates;
     protected int stepLength;
     protected int widthpx, heightpx;
 
@@ -19,30 +20,34 @@ public abstract class CreatureSprite {
         mapArray = map.getMapArray();
         creatureFront = Bitmap.createBitmap(spriteSheet, 24 * 3, 64 * 3, 24 * 3, 32 * 3);
         //Initialization of standard start position
-        mapX = mapArray[0].length / 2;
-        mapY = mapArray.length / 2;
+        mapCoordinates = new Point();
+        screenCoordinates = new Point();
         widthpx = creatureFront.getWidth() / 3;
         heightpx = creatureFront.getHeight() / 3;
-        setPosition(mapX, mapY);
+        setMapCoordinates(mapArray[0].length / 2, mapArray.length / 2);
         stepLength = MapSprite.getTileSize();
 
     }
 
-    public void setPosition(int mapX, int mapY) {
-        this.mapX = mapX;
-        this.mapY = mapY;
-        int[] tileCoordinates = map.convertCoordinates(mapX, mapY);
-        x = tileCoordinates[0] + widthpx / 2;
-        y = tileCoordinates[1] + heightpx / 2 - 35; //TODO Find better way
+    public void setMapCoordinates(int mapX, int mapY) {
+        this.mapCoordinates.x = mapX;
+        this.mapCoordinates.y = mapY;
+        Point tileCoordinates = map.convertMapToScreenCoordinates(new Point(mapX, mapY));
+        screenCoordinates.x = tileCoordinates.x + widthpx / 2;
+        screenCoordinates.y = tileCoordinates.y + heightpx / 2 - 35; //TODO Find better way
 
+    }
+
+    public Point getMapCoordinates() {
+        return mapCoordinates;
     }
 
     public void setStepLength(int multiplier) {
-        this.stepLength *= multiplier;
+        this.stepLength *= MapSprite.getTileSize() * multiplier;
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(creatureFront, x, y, null);
+        canvas.drawBitmap(creatureFront, screenCoordinates.x, screenCoordinates.y, null);
     }
 
 }

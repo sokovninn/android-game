@@ -10,39 +10,50 @@ public class CharacterSprite extends CreatureSprite {
     }
 
     public void update(Point point) {
-       int offsetX = point.x - x;
-       int offsetY = point.y - y;
-       if (Math.abs(offsetX) > Math.abs(offsetY)) {
-           if (offsetX > 0) {
-               moveHorizontally(1);
-           }
-           else {
-               moveHorizontally(-1);
-           }
-       } else {
-           if (offsetY > 0) {
-               moveVertically(1);
-           }
-           else {
-               moveVertically(-1);
-           }
-       }
+       Point updatedCoordinates = getCoordinatesAfterUpdate(point);
+       screenCoordinates.x += ((updatedCoordinates.x - mapCoordinates.x) * stepLength);
+       screenCoordinates.y += ((updatedCoordinates.y - mapCoordinates.y) * stepLength);
+       mapCoordinates = updatedCoordinates;
+
     }
 
-    public void moveHorizontally(int direction) {
-        int updatedMapX = mapX + direction;
-        if (updatedMapX >= 0 && updatedMapX < mapArray[0].length && mapArray[mapY][updatedMapX] != 83) {
-            mapX = updatedMapX;
-            x += stepLength * direction;
+    public Point getCoordinatesAfterUpdate(Point point) {
+        int offsetX = point.x - screenCoordinates.x;
+        int offsetY = point.y - screenCoordinates.y;
+        if (Math.abs(offsetX) > Math.abs(offsetY)) {
+            if (offsetX > 0) {
+                return moveHorizontally( 1);
+            }
+            else {
+                return moveHorizontally(-1);
+            }
+        } else {
+            if (offsetY > 0) {
+                return moveVertically(1);
+            }
+            else {
+                return moveVertically(-1);
+            }
         }
+
     }
 
-    public void moveVertically(int direction) {
-        int updatedMapY = mapY + direction;
-        if (updatedMapY >= 0 && updatedMapY < mapArray.length && mapArray[updatedMapY][mapX] != 83) {
-            mapY = updatedMapY;
-            y += stepLength * direction;
+    public Point moveHorizontally(int direction) {
+        Point updatedCoordinates = new Point(mapCoordinates.x, mapCoordinates.y);
+        int updatedMapX = mapCoordinates.x + direction;
+        if (updatedMapX >= 0 && updatedMapX < mapArray[0].length && mapArray[mapCoordinates.y][updatedMapX] != 83) {
+            updatedCoordinates.x = updatedMapX;
         }
+        return updatedCoordinates;
+    }
+
+    public Point moveVertically(int direction) {
+        Point updatedCoordinates = new Point(mapCoordinates.x, mapCoordinates.y);
+        int updatedMapY = mapCoordinates.y + direction;
+        if (updatedMapY >= 0 && updatedMapY < mapArray.length && mapArray[updatedMapY][mapCoordinates.x] != 83) {
+            updatedCoordinates.y = updatedMapY;
+        }
+        return updatedCoordinates;
     }
 }
 

@@ -2,6 +2,7 @@ package cz.fel.cvut.pjv.holycrab;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Point;
 
 
 public class MapSprite {
@@ -46,12 +47,12 @@ public class MapSprite {
         }
     }
 
-    public int[] convertCoordinates(int mapX, int mapY) {
-        int[] coordinates = new int[2];
-        coordinates[0] = startCornerX + tileSize * mapX;
-        coordinates[1] = startCornerY + tileSize * mapY;
+    public Point convertMapToScreenCoordinates(Point mapCoordinates) {
+        Point screenCoordinates = new Point();
+        screenCoordinates.x = startCornerX + tileSize * mapCoordinates.x;
+        screenCoordinates.y = startCornerY + tileSize * mapCoordinates.y;
 
-        return coordinates;
+        return screenCoordinates;
     }
 
     public static void initializeTileSprites(Bitmap image, int tSize, int tCount, int sFactor) {
