@@ -2,6 +2,7 @@ package cz.fel.cvut.pjv.holycrab;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -60,14 +61,18 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 {33, 34, 34, 34, 34, 34, 35}};
         mapSprite = new MapSprite(mapArray, mapArray.length, mapArray[0].length);
         //Create character
-        characterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.dwarf), mapSprite);
+        Bitmap characterBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dwarf);
+        Bitmap characterHitPointBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.heart_48x48);
+        characterSprite = new CharacterSprite(characterBitmap, mapSprite, characterHitPointBitmap);
         //Create enemy
         ArrayList<Point> enemyBehavior = new ArrayList<>();
         enemyBehavior.add(new Point(1, 0));
         enemyBehavior.add(new Point(0, 1));
         enemyBehavior.add(new Point(-1, 0));
         enemyBehavior.add(new Point(0, -1));
-        enemySprite = new EnemySprite(BitmapFactory.decodeResource(getResources(), R.drawable.tiny_skelly), mapSprite, enemyBehavior);
+        Bitmap enemyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tiny_skelly);
+        Bitmap enemyHitPointBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.heart_16x16);
+        enemySprite = new EnemySprite(enemyBitmap, mapSprite, enemyHitPointBitmap, enemyBehavior);
         enemySprite.setMapCoordinates(2, 1);
 
 
@@ -100,9 +105,21 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
+        // TODO Create fight handler
         if (playerIsMoving) {
-            characterSprite.update(point);
-            enemySprite.update();
+            Point characterMove = characterSprite.getCoordinatesAfterUpdate(point);
+            Point enemyMove = enemySprite.getCoordinatesAfterUpdate();
+            if (characterMove.x == enemyMove.x && characterMove.y == enemyMove.y) {
+                if (enemySprite.checkAttackable()) {
+                    enemySprite.updateHitPoints(-1);
+                } else {
+                    characterSprite.updateHitPoints(-1);
+                    enemySprite.update();
+                }
+            } else {
+                characterSprite.update(point);
+                enemySprite.update();
+            }
             playerIsMoving = false;
         }
     }

@@ -1,6 +1,7 @@
 package cz.fel.cvut.pjv.holycrab;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
 
 import java.util.ArrayList;
@@ -9,12 +10,15 @@ public class EnemySprite extends CreatureSprite {
     private ArrayList<Point> behavior;
     private int behaviorDuration;
     private int currentMove;
-    private boolean is_moving = true;
+    private boolean is_moving;
 
-    public EnemySprite(Bitmap spriteSheet, MapSprite map, ArrayList<Point> behavior) {
-        super(spriteSheet, map);
+
+
+    public EnemySprite(Bitmap spriteSheet, MapSprite map, Bitmap hitPointImage, ArrayList<Point> behavior) {
+        super(spriteSheet, map, hitPointImage);
         this.behavior = behavior;
         behaviorDuration = behavior.size();
+        is_moving = true;
     }
 
     public void setBehavior(ArrayList<Point> behavior) {
@@ -44,5 +48,19 @@ public class EnemySprite extends CreatureSprite {
             updatedCoordinates.y += nextMove.y;
         }
         return updatedCoordinates;
+    }
+
+    public void drawHitPoints(Canvas canvas) {
+        Point coordinates = new Point();
+        coordinates.x = screenCoordinates.x + widthpx / 2 - (hitPoints * hitPointSize) / 2;
+        coordinates.y = screenCoordinates.y - hitPointSize / 3;
+        for (int i = 0; i < hitPoints; i++) {
+            canvas.drawBitmap(hitPointImage, coordinates.x, coordinates.y, null);
+            coordinates.x += hitPointSize;
+        }
+    }
+
+    boolean checkAttackable() {
+        return !is_moving;
     }
 }

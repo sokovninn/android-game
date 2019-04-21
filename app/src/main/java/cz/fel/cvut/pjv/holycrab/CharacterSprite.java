@@ -1,12 +1,13 @@
 package cz.fel.cvut.pjv.holycrab;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
 
 public class CharacterSprite extends CreatureSprite {
 
-    public CharacterSprite(Bitmap bmp, MapSprite map) {
-        super(bmp, map);
+    public CharacterSprite(Bitmap bmp, MapSprite map, Bitmap hitPointImage) {
+        super(bmp, map, hitPointImage);
     }
 
     public void update(Point point) {
@@ -54,6 +55,16 @@ public class CharacterSprite extends CreatureSprite {
             updatedCoordinates.y = updatedMapY;
         }
         return updatedCoordinates;
+    }
+
+    public void drawHitPoints(Canvas canvas) {
+        Point coordinates = new Point();
+        coordinates.x = 20;
+        coordinates.y = 20;
+        for (int i = 0; i < hitPoints; i++) {
+            canvas.drawBitmap(hitPointImage, coordinates.x, coordinates.y, null);
+            coordinates.x += hitPointSize;
+        }
     }
 }
 
