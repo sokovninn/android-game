@@ -52,6 +52,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
+        //Create map
         MapSprite.initializeTileSprites(BitmapFactory.decodeResource(getResources(), R.drawable.spritesheet), 32, 84, 1);
         int[][] mapArray = new int[][]{
                 {83, 83, 5, 6, 7, 83, 83},
@@ -62,8 +63,9 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 {19, 20, 20, 62, 20, 20, 21},
                 {33, 34, 34, 34, 34, 34, 35}};
         mapSprite = new MapSprite(mapArray, mapArray.length, mapArray[0].length);
+        //Create character
         characterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.dwarf), mapSprite);
-
+        //Create enemy
         ArrayList<Point> enemyBehavior = new ArrayList<>();
         enemyBehavior.add(new Point(1, 0));
         enemyBehavior.add(new Point(0, 1));
