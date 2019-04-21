@@ -4,12 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class EnemySprite extends CreatureSprite {
     private ArrayList<Point> behavior;
     private int behaviorDuration;
     private int currentMove;
+    private boolean is_moving = true;
 
     public EnemySprite(Bitmap spriteSheet, MapSprite map, ArrayList<Point> behavior) {
         super(spriteSheet, map);
@@ -22,12 +22,17 @@ public class EnemySprite extends CreatureSprite {
     }
 
     public void update() {
-        Point currentPoint = behavior.get(currentMove++);
-        currentMove = currentMove == behaviorDuration ? 0 : currentMove;
-        mapX += currentPoint.x;
-        mapY += currentPoint.y;
-        x += stepLength * currentPoint.x;
-        y += stepLength * currentPoint.y;
+        if (is_moving) {
+            Point currentPoint = behavior.get(currentMove++);
+            currentMove = currentMove == behaviorDuration ? 0 : currentMove;
+            mapX += currentPoint.x;
+            mapY += currentPoint.y;
+            x += stepLength * currentPoint.x;
+            y += stepLength * currentPoint.y;
+            is_moving = false;
+        } else {
+            is_moving = true;
+        }
     }
 
 }
