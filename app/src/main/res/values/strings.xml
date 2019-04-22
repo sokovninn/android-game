@@ -3,4 +3,7 @@
     <string name="holy_crab">Holy Crab!</string>
     <string name="give_up">Give up</string>
     <string name="fight_for_the_death">Fight for the death!</string>
+    <string name="try_again">Try again</string>
+    <string name="return_to_menu">Return to menu</string>
+    <string name="game_over_human">Game Over, human</string>
 </resources>

@@ -1,6 +1,7 @@
 package cz.fel.cvut.pjv.holycrab;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -41,6 +42,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+
+    }
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(this, GameOverActivity.class);
+        startActivity(intent);
+        super.onDestroy();
 
     }
 }

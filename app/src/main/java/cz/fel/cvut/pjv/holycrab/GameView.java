@@ -1,6 +1,8 @@
 package cz.fel.cvut.pjv.holycrab;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -114,6 +116,11 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     enemySprite.updateHitPoints(-1);
                 } else {
                     characterSprite.updateHitPoints(-1);
+                    if (characterSprite.getHitPoints() < 1) {
+                        thread.setRunning(false);
+                        ((Activity)getContext()).finish();
+                        return;
+                    }
                     enemySprite.update();
                 }
             } else {
