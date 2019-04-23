@@ -23,9 +23,11 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
     static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private Point point = new Point();
     private boolean playerIsMoving = false;
+    Context context;
 
     public GameView(Context context) {
         super(context);
+        this.context = context;
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -117,9 +119,10 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 } else {
                     characterSprite.updateHitPoints(-1);
                     if (characterSprite.getHitPoints() < 1) {
-                        thread.setRunning(false);
-                        ((Activity)getContext()).finish();
-                        return;
+                        //MainActivity.mainActivity.finish();
+                        Intent intent = new Intent(context, GameOverActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
                     }
                     enemySprite.update();
                 }

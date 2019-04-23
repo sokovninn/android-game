@@ -31,12 +31,16 @@ public class GameOverActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.button: {
                 Intent intent = new Intent(this, StartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                finish();
             } break;
 
             case R.id.button3: {
                 Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                finish();
             } break;
 
             default:

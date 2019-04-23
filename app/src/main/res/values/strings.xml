@@ -5,5 +5,5 @@
     <string name="fight_for_the_death">Fight for the death!</string>
     <string name="try_again">Try again</string>
     <string name="return_to_menu">Return to menu</string>
-    <string name="game_over_human">Game Over, human</string>
+    <string name="game_over_human">Game Over</string>
 </resources>

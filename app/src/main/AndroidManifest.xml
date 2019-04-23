@@ -22,7 +22,11 @@
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="cz.fel.cvut.pjv.holycrab.StartActivity" />
-    </activity>
+        </activity>
+        <activity android:name=".GameOverActivity"
+            android:parentActivityName=".MainActivity">
+            <!--android:configChanges="orientation|screenSize">-->
+        </activity>
 </application>
 
 </manifest>

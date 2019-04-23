@@ -46,8 +46,6 @@ public class MainActivity extends Activity {
     }
     @Override
     protected void onDestroy() {
-        Intent intent = new Intent(this, GameOverActivity.class);
-        startActivity(intent);
         super.onDestroy();
 
     }

@@ -39,7 +39,7 @@ public abstract class CreatureSprite {
         heightpx = creatureFrontFrames[0].getHeight();
         setMapCoordinates(mapArray[0].length / 2, mapArray.length / 2);
         stepLength = MapSprite.getTileSize();
-        hitPoints = 3;
+        hitPoints = 1;
         this.hitPointImage = hitPointImage;
         hitPointSize = hitPointImage.getWidth();
 
