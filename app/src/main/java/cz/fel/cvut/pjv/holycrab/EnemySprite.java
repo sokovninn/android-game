@@ -10,31 +10,34 @@ public class EnemySprite extends CreatureSprite {
     private ArrayList<Point> behavior;
     private int behaviorDuration;
     private int currentMove;
-    private boolean is_moving;
+    private boolean is_active;
+    private CharacterSprite characterSprite;
 
 
 
-    public EnemySprite(Bitmap spriteSheet, MapSprite map, Bitmap hitPointImage, ArrayList<Point> behavior) {
+    public EnemySprite(Bitmap spriteSheet, MapSprite map, Bitmap hitPointImage, ArrayList<Point> behavior, CharacterSprite characterSprite) {
         super(spriteSheet, map, hitPointImage);
         this.behavior = behavior;
+        this.characterSprite = characterSprite;
         behaviorDuration = behavior.size();
-        is_moving = true;
+        is_active = true;
+
     }
 
     public void setBehavior(ArrayList<Point> behavior) {
         this.behavior = behavior;
     }
 
-    public void update() {
-        mapCoordinates = getCoordinatesAfterUpdate();
-        if (is_moving) {
+    public void update(Point characterMove) {
+        Point move = getCoordinatesAfterUpdate();
+        Point characterPosition = characterSprite.getMapCoordinates();
+        if (!((characterPosition.x == move.x) && (characterPosition.y == move.y)
+                && (characterMove.x == mapCoordinates.x) && (characterMove.y == mapCoordinates.y))) {
+            mapCoordinates = move;
             screenCoordinates.x += behavior.get(currentMove).x * MapSprite.getTileSize();
             screenCoordinates.y += behavior.get(currentMove).y * MapSprite.getTileSize();
             currentMove++;
             currentMove = (currentMove == behaviorDuration) ? 0 : currentMove;
-            is_moving = false;
-        } else {
-            is_moving = true;
         }
     }
 
@@ -42,7 +45,7 @@ public class EnemySprite extends CreatureSprite {
         Point updatedCoordinates = new Point();
         updatedCoordinates.x = mapCoordinates.x;
         updatedCoordinates.y = mapCoordinates.y;
-        if (is_moving) {
+        if (is_active) {
             Point nextMove = behavior.get(currentMove);
             updatedCoordinates.x += nextMove.x;
             updatedCoordinates.y += nextMove.y;
@@ -61,6 +64,8 @@ public class EnemySprite extends CreatureSprite {
     }
 
     boolean checkAttackable() {
-        return !is_moving;
+        return !is_active;
     }
+
+
 }

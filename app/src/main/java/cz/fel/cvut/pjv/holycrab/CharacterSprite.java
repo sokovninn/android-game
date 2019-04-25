@@ -5,9 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 public class CharacterSprite extends CreatureSprite {
+    private int stepLength;
 
     public CharacterSprite(Bitmap bmp, MapSprite map, Bitmap hitPointImage) {
         super(bmp, map, hitPointImage);
+        stepLength = MapSprite.getTileSize();
     }
 
     public void update(Point point) {
@@ -66,5 +68,6 @@ public class CharacterSprite extends CreatureSprite {
             coordinates.x += hitPointSize;
         }
     }
+
 }
 
