@@ -1,6 +1,7 @@
 package cz.fel.cvut.pjv.holycrab;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
@@ -13,9 +14,14 @@ public class EnemySprite extends CreatureSprite {
     private boolean is_active;
     private CharacterSprite characterSprite;
 
+    static Bitmap hitPointImage;
+
+    static {
+        hitPointImage = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.heart_16x16);
+    }
 
 
-    public EnemySprite(Bitmap spriteSheet, MapSprite map, Bitmap hitPointImage, ArrayList<Point> behavior, CharacterSprite characterSprite) {
+    public EnemySprite(Bitmap spriteSheet, MapSprite map, ArrayList<Point> behavior, CharacterSprite characterSprite) {
         super(spriteSheet, map, hitPointImage);
         this.behavior = behavior;
         this.characterSprite = characterSprite;
@@ -32,12 +38,18 @@ public class EnemySprite extends CreatureSprite {
         Point move = getCoordinatesAfterUpdate();
         Point characterPosition = characterSprite.getMapCoordinates();
         if (!((characterPosition.x == move.x) && (characterPosition.y == move.y)
-                && (characterMove.x == mapCoordinates.x) && (characterMove.y == mapCoordinates.y))) {
+                && ((characterMove.x == mapCoordinates.x) && (characterMove.y == mapCoordinates.y)
+                || (characterMove.x == characterPosition.x) && (characterMove.y == characterPosition.y)))) {
+            if (move.x == characterMove.x && move.y == characterMove.y) {
+                attack(characterSprite);
+            }
             mapCoordinates = move;
             screenCoordinates.x += behavior.get(currentMove).x * MapSprite.getTileSize();
             screenCoordinates.y += behavior.get(currentMove).y * MapSprite.getTileSize();
             currentMove++;
             currentMove = (currentMove == behaviorDuration) ? 0 : currentMove;
+        } else {
+            attack(characterSprite);
         }
     }
 
