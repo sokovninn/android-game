@@ -15,24 +15,23 @@ public abstract class CreatureSprite extends GameObject {
     protected int hitPointSize;
     protected int strength;
     protected boolean isDead;
+    protected boolean isAttacked;
 
     public CreatureSprite(Bitmap spriteSheet, MapSprite map, Bitmap hitPointImage) {
         super(spriteSheet, map);
-        creatureFrontFrames = new Bitmap[3];
-        for (int i = 0; i < 3; i++) {
-            creatureFrontFrames[i] = Bitmap.createBitmap(spriteSheet, 24 * i * 3, 64 * 3, 24 * 3, 32 * 3);
-        }
+        setCreatureFrontFrames(0,64,24,32);
         currentFrame = 0;
         previousFrameChangeTime = 0;
         frameLength = 500;
         widthpx = creatureFrontFrames[0].getWidth();
         heightpx = creatureFrontFrames[0].getHeight();
         setMapCoordinates(mapArray[0].length / 2, mapArray.length / 2);
-        hitPoints = 1;
+        hitPoints = 3;
         strength = 1;
         this.hitPointImage = hitPointImage;
         hitPointSize = hitPointImage.getWidth();
         isDead = false;
+        isAttacked = false;
 
     }
 
@@ -63,6 +62,18 @@ public abstract class CreatureSprite extends GameObject {
 
     public void attack(CreatureSprite creatureSprite) {
         creatureSprite.updateHitPoints(-strength);
+        creatureSprite.setAttacked(true);
     }
 
+    public void setCreatureFrontFrames(int x, int y, int width, int height) {
+        creatureFrontFrames = new Bitmap[3];
+        for (int i = 0; i < 3; i++) {
+            creatureFrontFrames[i] = Bitmap.createBitmap(spriteSheet, x * 3, y * 3, width * 3, height * 3);
+            x += width;
+        }
+    }
+
+    public void setAttacked(boolean isAttacked) {
+        this.isAttacked = isAttacked;
+    }
 }
