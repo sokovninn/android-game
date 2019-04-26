@@ -19,12 +19,14 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MapSprite mapSprite;
     static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    private Point point = new Point();
+    private Point moveDirection = new Point();
     private boolean playerIsActive = false;
     private boolean enemyIsActive = true;
     private Context context;
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
     private GameObject[][] objectsOnMap;
+
+    private static Resources resources;
 
     public GameView(Context context) {
         super(context);
@@ -39,8 +41,8 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                playerIsActive = true;
-                point.set((int)event.getX(),(int)event.getY());
+                //playerIsActive = true;
+                //point.set((int)event.getX(),(int)event.getY());
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;
@@ -54,34 +56,31 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
+        resources = getResources();
         //Create map
         MapSprite.initializeTileSprites(BitmapFactory.decodeResource(getResources(), R.drawable.spritesheet), 32, 84, 1);
         int[][] mapArray = new int[][]{
-                {83, 83, 5, 6, 7, 83, 83},
-                {83, 83, 19, 2, 21, 83, 83},
-                {83, 83, 33, 36, 35, 83, 83},
-                {83, 83, 83, 18, 83, 83, 83},
-                {5, 6, 6, 38, 6, 6, 7},
-                {19, 20, 20, 62, 20, 20, 21},
-                {33, 34, 34, 34, 34, 34, 35}};
+                {5, 6, 6, 6, 6, 6, 6, 6, 7},
+                {19, 20, 20, 20, 20, 20, 20, 20, 21},
+                {19, 20, 20, 20, 20, 20, 20, 20, 21},
+                {19, 20, 20, 20, 20, 20, 20, 20, 21},
+                {19, 20, 20, 20, 20, 20, 20, 20, 21},
+                {19, 20, 20, 20, 20, 20, 20, 20, 21},
+                {19, 20, 20, 20, 20, 20, 20, 20, 21},
+                {19, 20, 20, 20, 20, 20, 20, 20, 21},
+                {33, 34, 34, 34, 34, 34, 34, 34, 35}};
         objectsOnMap = new GameObject[mapArray.length][mapArray[0].length];
         mapSprite = new MapSprite(mapArray, mapArray.length, mapArray[0].length);
         //Create character
-        Bitmap characterBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dwarf);
-        Bitmap characterHitPointBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.heart_48x48);
-        characterSprite = new CharacterSprite(characterBitmap, mapSprite, characterHitPointBitmap);
-        //Create enemy
-        ArrayList<Point> enemyBehavior = new ArrayList<>();
-        enemyBehavior.add(new Point(1, 0));
-        enemyBehavior.add(new Point(0, 1));
-        enemyBehavior.add(new Point(-1, 0));
-        enemyBehavior.add(new Point(0, -1));
-        Bitmap enemyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tiny_skelly);
-        Bitmap enemyHitPointBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.heart_16x16);
-        EnemySprite newEnemy = new EnemySprite(enemyBitmap, mapSprite, enemyHitPointBitmap, enemyBehavior, characterSprite);
-        newEnemy.setMapCoordinates(2, 1);
-        gameObjects.add(newEnemy);
-        objectsOnMap[2][1] = newEnemy;
+        characterSprite = new CharacterSprite(this, 4, 4);
+        SkeletonSprite skeletonSprite = new SkeletonSprite(this, 2, 1);
+        gameObjects.add(skeletonSprite);
+        objectsOnMap[2][1] = skeletonSprite;
+        //Create another enemy
+        MageSprite mageSprite = new MageSprite(this, 5, 4);
+        gameObjects.add(mageSprite);
+        objectsOnMap[5][4] = mageSprite;
+
 
 
     }
@@ -118,7 +117,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
         // TODO Create fight handler
         if (playerIsActive) {
             playerIsActive = false;
-            Point characterMove = characterSprite.getCoordinatesAfterUpdate(point);
+            Point characterMove = characterSprite.getCoordinatesAfterUpdate(moveDirection);
             if (enemyIsActive) {
                 enemyIsActive = false;
                 for (GameObject gameObject: gameObjects) {
@@ -132,14 +131,13 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         objectsOnMap[position.x][position.y] = enemySprite;
                     }
                 }
-                if (objectsOnMap[characterMove.x][characterMove.y] != null) {
-                    EnemySprite enemySprite = (EnemySprite)objectsOnMap[characterMove.x][characterMove.y];
-                    enemySprite.attack(characterSprite);
-                    if (characterSprite.isDead) {
-                        endGame();
-                    }
+                if (characterSprite.isDead) {
+                    endGame();
+                }
+                if (!characterSprite.isAttacked) {
+                    characterSprite.update(moveDirection);
                 } else {
-                    characterSprite.update(point);
+                    characterSprite.setAttacked(false);
                 }
             } else {
                 enemyIsActive = true;
@@ -150,8 +148,9 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         objectsOnMap[characterMove.x][characterMove.y] = null;
                         gameObjects.remove(enemySprite);
                     }
+                    enemySprite.setAttacked(false);
                 } else {
-                    characterSprite.update(point);
+                    characterSprite.update(moveDirection);
                 }
             }
         }
@@ -161,5 +160,23 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
         Intent intent = new Intent(context, GameOverActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    public void setMoveDirection(int x, int y) {
+        playerIsActive = true;
+        moveDirection.x = x;
+        moveDirection.y = y;
+    }
+
+    public static Resources getGameResources() {
+        return resources;
+    }
+
+    public MapSprite getMap() {
+        return mapSprite;
+    }
+
+    public CharacterSprite getCharacter() {
+        return characterSprite;
     }
 }
