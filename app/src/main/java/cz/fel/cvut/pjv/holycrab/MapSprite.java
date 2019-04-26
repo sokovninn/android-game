@@ -23,8 +23,8 @@ public class MapSprite {
         this.mapArray = mapArray;
         this.mapHeight = mapHeight;
         this.mapWidth = mapWidth;
-        startCornerX = (GameView.screenWidth - mapWidth * tileSize + tileSize) / 2 ;
-        startCornerY = (GameView.screenHeight - mapHeight * tileSize + tileSize) / 2;
+        startCornerX = (GameView.screenWidth - mapWidth * tileSize) / 2 ;
+        startCornerY = (GameView.screenHeight - mapHeight * tileSize) / 2;
 
 
         initializeMap();
