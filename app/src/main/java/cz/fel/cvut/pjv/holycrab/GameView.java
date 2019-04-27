@@ -58,17 +58,18 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.start();
         resources = getResources();
         //Create map
-        MapSprite.initializeTileSprites(BitmapFactory.decodeResource(getResources(), R.drawable.spritesheet), 32, 84, 1);
+        MapSprite.initializeTileSprites(BitmapFactory.decodeResource(getResources(), R.drawable.dungeon), 32, 247, 1);
         int[][] mapArray = new int[][]{
-                {5, 6, 6, 6, 6, 6, 6, 6, 7},
-                {19, 20, 20, 20, 20, 20, 20, 20, 21},
-                {19, 20, 20, 20, 20, 20, 20, 20, 21},
-                {19, 20, 20, 20, 20, 20, 20, 20, 21},
-                {19, 20, 20, 20, 20, 20, 20, 20, 21},
-                {19, 20, 20, 20, 20, 20, 20, 20, 21},
-                {19, 20, 20, 20, 20, 20, 20, 20, 21},
-                {19, 20, 20, 20, 20, 20, 20, 20, 21},
-                {33, 34, 34, 34, 34, 34, 34, 34, 35}};
+                {3, 57, 57, 57, 155, 156, 57, 57, 57, 4},
+                {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                {181, 6, 6, 6, 6, 6, 6, 6, 6, 171},
+                {200, 6, 6, 6, 6, 167, 6, 6, 6, 190},
+                {76, 73, 74, 6, 6, 6, 6, 6, 6, 77},
+                {76, 92, 93, 6, 6, 6, 6, 6, 6, 77},
+                {76, 111, 112, 6, 6, 6, 6, 6, 6, 77},
+                {22, 78, 78, 78, 215, 216, 78, 78, 78, 23}};
         objectsOnMap = new GameObject[mapArray.length][mapArray[0].length];
         mapSprite = new MapSprite(mapArray, mapArray.length, mapArray[0].length);
         //Create character

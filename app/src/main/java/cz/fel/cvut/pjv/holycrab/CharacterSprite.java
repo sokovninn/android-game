@@ -33,12 +33,15 @@ public class CharacterSprite extends CreatureSprite {
     public Point getCoordinatesAfterUpdate(Point moveDirection) {
         Point updatedCoordinates = new Point(mapCoordinates.x, mapCoordinates.y);
         int updatedMapX = mapCoordinates.x + moveDirection.x;
-        if (updatedMapX >= 0 && updatedMapX < mapArray[0].length && mapArray[mapCoordinates.y][updatedMapX] != 83) {
-            updatedCoordinates.x = updatedMapX;
-        }
         int updatedMapY = mapCoordinates.y + moveDirection.y;
-        if (updatedMapY >= 0 && updatedMapY < mapArray.length && mapArray[updatedMapY][mapCoordinates.x] != 83) {
-            updatedCoordinates.y = updatedMapY;
+        if (mapArray[updatedMapX][updatedMapY] != 57 && mapArray[updatedMapX][updatedMapY] != 76
+                && mapArray[updatedMapX][updatedMapY] != 77 && mapArray[updatedMapX][updatedMapY] != 78) {
+            if (updatedMapX >= 0 && updatedMapX < mapArray[0].length && mapArray[mapCoordinates.y][updatedMapX] != 83) {
+                updatedCoordinates.x = updatedMapX;
+            }
+            if (updatedMapY >= 0 && updatedMapY < mapArray.length && mapArray[updatedMapY][mapCoordinates.x] != 83) {
+                updatedCoordinates.y = updatedMapY;
+            }
         }
         return updatedCoordinates;
 
