@@ -18,8 +18,8 @@ public class SkeletonSprite extends EnemySprite {
         behavior.add(new Point(0, -1));
     }
 
-    public SkeletonSprite(GameView gameView, int initialX, int initialY) {
-        super(SkeletonSprite.skeletonSpriteSheet, gameView.getMap(), behavior, gameView.getCharacter());
+    public SkeletonSprite(Room room, int initialX, int initialY) {
+        super(SkeletonSprite.skeletonSpriteSheet, room.getMap(), behavior, room.getCharacter());
         setMapCoordinates(initialX, initialY);
     }
 }
