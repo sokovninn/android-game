@@ -16,15 +16,14 @@ import java.util.ArrayList;
 class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private CharacterSprite characterSprite;
-    private MapSprite mapSprite;
     static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     private Point moveDirection = new Point();
     private boolean playerIsActive = false;
     private boolean enemyIsActive = true;
     private Context context;
-    private ArrayList<GameObject> gameObjects = new ArrayList<>();
-    private GameObject[][] objectsOnMap;
+    private ArrayList<Room> rooms = new ArrayList<>();
+    private Room currentRoom;
 
     private static Resources resources;
 
@@ -57,32 +56,38 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
         thread.start();
         resources = getResources();
-        //Create map
+        //Initialize map tiles
         MapSprite.initializeTileSprites(BitmapFactory.decodeResource(getResources(), R.drawable.dungeon), 32, 247, 1);
-        int[][] mapArray = new int[][]{
+        int[][] mapArrayFirstRoom = new int[][]{
                 {3, 57, 57, 57, 155, 156, 57, 57, 57, 4},
                 {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
                 {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
                 {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
-                {181, 6, 6, 6, 6, 6, 6, 6, 6, 171},
-                {200, 6, 6, 6, 6, 167, 6, 6, 6, 190},
+                {181, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                {200, 6, 6, 6, 6, 167, 6, 6, 6, 77},
                 {76, 73, 74, 6, 6, 6, 6, 6, 6, 77},
                 {76, 92, 93, 6, 6, 6, 6, 6, 6, 77},
                 {76, 111, 112, 6, 6, 6, 6, 6, 6, 77},
                 {22, 78, 78, 78, 215, 216, 78, 78, 78, 23}};
-        objectsOnMap = new GameObject[mapArray.length][mapArray[0].length];
-        mapSprite = new MapSprite(mapArray, mapArray.length, mapArray[0].length);
-        //Create character
-        characterSprite = new CharacterSprite(this, 4, 4);
-        SkeletonSprite skeletonSprite = new SkeletonSprite(this, 2, 1);
-        gameObjects.add(skeletonSprite);
-        objectsOnMap[2][1] = skeletonSprite;
-        //Create another enemy
-        MageSprite mageSprite = new MageSprite(this, 5, 4);
-        gameObjects.add(mageSprite);
-        objectsOnMap[5][4] = mageSprite;
 
-
+        int[][] mapArraySecondRoom = new int[][]{
+                {3, 57, 57, 57, 155, 156, 57, 57, 57, 4},
+                {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                {76, 6, 6, 6, 6, 6, 6, 6, 6, 171},
+                {76, 6, 6, 6, 6, 167, 6, 6, 6, 190},
+                {76, 73, 74, 6, 6, 6, 6, 6, 6, 77},
+                {76, 92, 93, 6, 6, 6, 6, 6, 6, 77},
+                {76, 111, 112, 6, 6, 6, 6, 6, 6, 77},
+                {22, 78, 78, 78, 215, 216, 78, 78, 78, 23}};
+        //Create new room
+        Room newRoom = new Room(this, mapArrayFirstRoom);
+        rooms.add(newRoom);
+        currentRoom = newRoom;
+        //One more room
+        newRoom = new Room(this, mapArraySecondRoom);
+        rooms.add(newRoom);
 
     }
 
@@ -107,14 +112,14 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        mapSprite.draw(canvas);
+        currentRoom.draw(canvas);
         characterSprite.draw(canvas);
-        for (GameObject gameObject: gameObjects) {
-            gameObject.draw(canvas);
-        }
+
     }
 
     public void update() {
+        ArrayList<GameObject> gameObjects = currentRoom.getGameObjects();
+        GameObject[][] objectsOnMap = currentRoom.getObjectsOnMap();
         // TODO Create fight handler
         if (playerIsActive) {
             playerIsActive = false;
@@ -154,6 +159,14 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     characterSprite.update(moveDirection);
                 }
             }
+            if (currentRoom == rooms.get(0) && characterSprite.getMapCoordinates().x == 0) {
+                currentRoom = rooms.get(1);
+                characterSprite.setMapCoordinates(8, 4);
+            }
+            if (currentRoom == rooms.get(1) && characterSprite.getMapCoordinates().x == 9) {
+                currentRoom = rooms.get(0);
+                characterSprite.setMapCoordinates(1, 4);
+            }
         }
     }
 
@@ -173,11 +186,15 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return resources;
     }
 
-    public MapSprite getMap() {
-        return mapSprite;
-    }
-
     public CharacterSprite getCharacter() {
         return characterSprite;
+    }
+
+    public void setCharacterSprite(CharacterSprite characterSprite) {
+        this.characterSprite = characterSprite;
+    }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
     }
 }
