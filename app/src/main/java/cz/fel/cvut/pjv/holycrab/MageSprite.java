@@ -18,8 +18,8 @@ public class MageSprite extends EnemySprite {
         behavior.add(new Point(1, -1));
     }
 
-    public MageSprite(GameView gameView, int initialX, int initialY) {
-        super(MageSprite.mageSpriteSheet, gameView.getMap(), behavior, gameView.getCharacter());
+    public MageSprite(Room room, int initialX, int initialY) {
+        super(MageSprite.mageSpriteSheet, room.getMap(), behavior, room.getCharacter());
         setMapCoordinates(initialX, initialY);
     }
 }
