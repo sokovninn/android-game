@@ -16,8 +16,8 @@ public class CharacterSprite extends CreatureSprite {
 
     }
 
-    public CharacterSprite(GameView gameView, int initialX, int initialY) {
-        super(CharacterSprite.chatacterSpriteSheet, gameView.getMap(), CharacterSprite.characterHitPointImage);
+    public CharacterSprite(Room room, int initialX, int initialY) {
+        super(CharacterSprite.chatacterSpriteSheet, room.getMap(), CharacterSprite.characterHitPointImage);
         stepLength = MapSprite.getTileSize();
         setMapCoordinates(initialX, initialY);
     }
