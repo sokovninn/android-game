@@ -86,4 +86,9 @@ public class MapSprite {
     public int[][] getMapArray() {
         return mapArray;
     }
+
+    public void changeMapArray(int x, int y, int newValue) {
+        mapArray[x][y] = newValue;
+        tileSprites[x][y] = new TileSprite(newValue);
+    }
 }
