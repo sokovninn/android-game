@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-public abstract class GameObject {
+public abstract class GameObject implements Interactable {
     protected Bitmap spriteSheet;
     protected MapSprite map;
     protected int[][] mapArray;
@@ -34,6 +34,10 @@ public abstract class GameObject {
 
     public Point getMapCoordinates() {
         return mapCoordinates;
+    }
+
+    public void setMapArray(int[][] mapArray) {
+        this.mapArray = mapArray;
     }
 
     public abstract void draw(Canvas canvas);
