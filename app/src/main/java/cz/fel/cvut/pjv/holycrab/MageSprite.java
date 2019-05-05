@@ -12,14 +12,20 @@ public class MageSprite extends EnemySprite {
     static {
         mageSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.mage_dark);
         behavior = new ArrayList<>();
-        behavior.add(new Point(1, 1));
         behavior.add(new Point(-1, 1));
-        behavior.add(new Point(-1, -1));
+        behavior.add(new Point(0, -1));
+        behavior.add(new Point(-1, 1));
+        behavior.add(new Point(0, -1));
         behavior.add(new Point(1, -1));
+        behavior.add(new Point(0, 1));
+        behavior.add(new Point(1, -1));
+        behavior.add(new Point(0, 1));
+
     }
 
     public MageSprite(Room room, int initialX, int initialY) {
         super(MageSprite.mageSpriteSheet, room.getMap(), behavior, room.getCharacter());
         setMapCoordinates(initialX, initialY);
+        isChangingState = true;
     }
 }
