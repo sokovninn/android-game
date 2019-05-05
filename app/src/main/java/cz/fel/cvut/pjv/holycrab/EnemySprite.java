@@ -7,11 +7,12 @@ import android.graphics.Point;
 
 import java.util.ArrayList;
 
-public class EnemySprite extends CreatureSprite {
+public abstract class EnemySprite extends CreatureSprite {
     private ArrayList<Point> behavior;
     private int behaviorDuration;
     private int currentMove;
-    private boolean is_active;
+    private boolean isActive = true;
+    protected boolean isChangingState = false;
     private CharacterSprite characterSprite;
 
     static Bitmap hitPointImage;
@@ -26,30 +27,24 @@ public class EnemySprite extends CreatureSprite {
         this.behavior = behavior;
         this.characterSprite = characterSprite;
         behaviorDuration = behavior.size();
-        is_active = true;
 
-    }
-
-    public void setBehavior(ArrayList<Point> behavior) {
-        this.behavior = behavior;
     }
 
     public void update(Point characterMove) {
-        Point move = getCoordinatesAfterUpdate();
-        Point characterPosition = characterSprite.getMapCoordinates();
-        if (!((characterPosition.x == move.x) && (characterPosition.y == move.y)
-                && ((characterMove.x == mapCoordinates.x) && (characterMove.y == mapCoordinates.y)
-                || (characterMove.x == characterPosition.x) && (characterMove.y == characterPosition.y)))) {
-            if (move.x == characterMove.x && move.y == characterMove.y) {
+        if (isActive) {
+            Point move = getCoordinatesAfterUpdate();
+            Point characterPosition = characterSprite.getMapCoordinates();
+            if (checkCharacterOnTheWay(move, characterPosition, characterMove)) {
                 attack(characterSprite);
+            } else {
+                if (move.x == characterMove.x && move.y == characterMove.y) {
+                    attack(characterSprite);
+                }
+                changePosition(move);
             }
-            mapCoordinates = move;
-            screenCoordinates.x += behavior.get(currentMove).x * MapSprite.getTileSize();
-            screenCoordinates.y += behavior.get(currentMove).y * MapSprite.getTileSize();
-            currentMove++;
-            currentMove = (currentMove == behaviorDuration) ? 0 : currentMove;
+            if (isChangingState) isActive = false;
         } else {
-            attack(characterSprite);
+            isActive = true;
         }
     }
 
@@ -57,11 +52,9 @@ public class EnemySprite extends CreatureSprite {
         Point updatedCoordinates = new Point();
         updatedCoordinates.x = mapCoordinates.x;
         updatedCoordinates.y = mapCoordinates.y;
-        if (is_active) {
-            Point nextMove = behavior.get(currentMove);
-            updatedCoordinates.x += nextMove.x;
-            updatedCoordinates.y += nextMove.y;
-        }
+        Point nextMove = behavior.get(currentMove);
+        updatedCoordinates.x += nextMove.x;
+        updatedCoordinates.y += nextMove.y;
         return updatedCoordinates;
     }
 
@@ -75,9 +68,22 @@ public class EnemySprite extends CreatureSprite {
         }
     }
 
-    boolean checkAttackable() {
-        return !is_active;
+    private boolean checkCharacterOnTheWay(Point move, Point characterPosition, Point characterMove) {
+        return ((characterPosition.x == move.x) && (characterPosition.y == move.y)
+                && ((characterMove.x == mapCoordinates.x) && (characterMove.y == mapCoordinates.y)
+                || (characterMove.x == characterPosition.x) && (characterMove.y == characterPosition.y)));
     }
 
+    private void changePosition(Point move) {
+        mapCoordinates = move;
+        screenCoordinates.x += behavior.get(currentMove).x * MapSprite.getTileSize();
+        screenCoordinates.y += behavior.get(currentMove).y * MapSprite.getTileSize();
+        currentMove++;
+        currentMove = (currentMove == behaviorDuration) ? 0 : currentMove;
+    }
 
+    @Override
+    public void interact(CharacterSprite characterSprite) {
+
+    }
 }
