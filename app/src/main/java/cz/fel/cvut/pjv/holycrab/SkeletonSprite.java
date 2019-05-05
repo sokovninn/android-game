@@ -21,5 +21,6 @@ public class SkeletonSprite extends EnemySprite {
     public SkeletonSprite(Room room, int initialX, int initialY) {
         super(SkeletonSprite.skeletonSpriteSheet, room.getMap(), behavior, room.getCharacter());
         setMapCoordinates(initialX, initialY);
+        isChangingState = true;
     }
 }
