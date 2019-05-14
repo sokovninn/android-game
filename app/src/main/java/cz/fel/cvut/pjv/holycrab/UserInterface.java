@@ -39,6 +39,9 @@ public class UserInterface {
         frameLength = 100;
     }
 
+    /**
+     * @param player Player which contains data to show
+     */
     public void update(Player player) {
         hitPoints = player.getHitPoints();
         keysAmount = player.getKeysAmount();
@@ -46,6 +49,9 @@ public class UserInterface {
         inventory = player.getInventory();
     }
 
+    /**
+     * @param canvas Canvas to draw on
+     */
     public void draw(Canvas canvas) {
         drawHitPoints(canvas);
         drawKeys(canvas);
@@ -55,7 +61,7 @@ public class UserInterface {
         }
 
     }
-    public void drawHitPoints(Canvas canvas) {
+    private void drawHitPoints(Canvas canvas) {
         Point coordinates = new Point();
         coordinates.x = 20;
         coordinates.y = 20;
@@ -65,7 +71,7 @@ public class UserInterface {
         }
     }
 
-    public void drawKeys(Canvas canvas) {
+    private void drawKeys(Canvas canvas) {
         Point coordinates = new Point();
         coordinates.x = GameView.screenWidth - 150;
         coordinates.y = 20;
@@ -75,7 +81,7 @@ public class UserInterface {
         }
     }
 
-    public void manageCurrentCoinFrame() {
+    private void manageCurrentCoinFrame() {
         long currentTime = System.currentTimeMillis();
         if (currentTime > previousFrameChangeTime + frameLength) {
             currentFrame = (currentFrame + 1) % 8;
@@ -83,13 +89,13 @@ public class UserInterface {
         }
     }
 
-    public void drawGold(Canvas canvas) {
+    private void drawGold(Canvas canvas) {
         manageCurrentCoinFrame();
         canvas.drawBitmap(coinFrames[currentFrame], 20, 200, null);
         canvas.drawText(String.valueOf(goldAmount), 110, 265, goldAmountText);
     }
 
-    public void setGoldAmountText(int color, int textSize) {
+    private void setGoldAmountText(int color, int textSize) {
         goldAmountText = new Paint();
         goldAmountText.setColor(color);
         goldAmountText.setTextSize(textSize);

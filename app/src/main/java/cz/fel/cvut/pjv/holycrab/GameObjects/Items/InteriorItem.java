@@ -22,6 +22,12 @@ public class InteriorItem extends Item {
         }
 
     }
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param numItem Number of interior item
+     * @param map Map of the room
+     */
     public InteriorItem(int initialX, int initialY, int numItem, Map map) {
         super(initialX, initialY, interiorItemSprites[numItem], map);
     }

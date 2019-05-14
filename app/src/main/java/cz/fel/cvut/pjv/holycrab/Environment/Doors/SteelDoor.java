@@ -13,6 +13,11 @@ public class SteelDoor extends Door {
     public static final int rightClosedFirstPart = 175;
     public static final int rightClosedSecondPart = 194;
 
+    /**
+     * @param location Location in the room
+     * @param currentRoom Room which contains door
+     * @param nextRoom Room after the door
+     */
     public SteelDoor(Location location, Room currentRoom, Room nextRoom) {
         super(location, currentRoom, nextRoom);
     }

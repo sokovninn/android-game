@@ -15,8 +15,12 @@ public class WoodenDoor extends Door {
     public static final int rightClosedFirstPart = 173;
     public static final int rightClosedSecondPart = 192;
 
-    protected boolean isAvailable;
-
+    private boolean isAvailable;
+    /**
+     * @param location Location in the room
+     * @param currentRoom Room which contains door
+     * @param nextRoom Room after the door
+     */
     public WoodenDoor(Location location, Room currentRoom, Room nextRoom) {
         super(location, currentRoom, nextRoom);
     }
@@ -24,7 +28,7 @@ public class WoodenDoor extends Door {
     @Override
     public void interact(Player player) {
         super.interact(player);
-        if (!isOpened && isAvailable && player.hasKey()) {
+        if (!super.checkOpened() && isAvailable && player.hasKey()) {
             player.useKey();
             open();
         }

@@ -12,10 +12,18 @@ public class Key extends Item {
         keySprite = Bitmap.createBitmap(Item.allItemsSpriteSheet, 32 * 3, 129 * 3,
                 32 * 3, 31 * 3);
     }
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param map Map of the room
+     */
     public Key(int initialX, int initialY, Map map) {
         super(initialX, initialY, keySprite, map);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
         super.interact(player);
@@ -25,6 +33,9 @@ public class Key extends Item {
         }
     }
 
+    /**
+     * @return Image of key
+     */
     public static Bitmap getKeySprite() {
         return keySprite;
     }

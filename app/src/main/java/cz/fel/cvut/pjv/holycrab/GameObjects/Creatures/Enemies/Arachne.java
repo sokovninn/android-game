@@ -17,14 +17,24 @@ public class Arachne extends Enemy {
 
     }
     private Point direction = new Point();
+
+    /**
+     * @param room Room in which Enemy is
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     */
     public Arachne(Room room, int initialX, int initialY) {
-        super(arachneSpriteSheet, room.getMap(), null, room.getCharacter());
+        super(arachneSpriteSheet, room.getMap(), null, room.getPlayer());
         setMapCoordinates(initialX, initialY);
         maxHitPoints = 10;
         isChangingState = true;
         hitPoints = maxHitPoints;
         reward = 3;
     }
+
+    /**
+     * @param characterMove Postion of players character after move
+     */
     @Override
     public void update(Point characterMove) {
         if (isActive) {
@@ -44,6 +54,9 @@ public class Arachne extends Enemy {
         }
     }
 
+    /**
+     * @return Position after move
+     */
     @Override
     public Point getCoordinatesAfterUpdate() {
         //TODO: fix behavior
@@ -53,10 +66,6 @@ public class Arachne extends Enemy {
         direction.x = direction.x == 0 ? 0 : direction.x / Math.abs(direction.x) * 2;
         direction.y = playerCoordinates.y - mapCoordinates.y;
         direction.y = direction.y == 0 ? 0 : direction.y / Math.abs(direction.y) * 2;
-//        if (Math.abs(direction.x) != Math.abs(direction.y) ) {
-//            direction.x *= 2;
-//            direction.y *= 2;
-//        }
         updatedCoordinates.x = mapCoordinates.x + direction.x;
         updatedCoordinates.y = mapCoordinates.y + direction.y;
         return updatedCoordinates;

@@ -31,6 +31,13 @@ public abstract class Item extends GameObject {
         extendedItemsSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.items_extended);
 
     }
+
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param itemSprite Item image
+     * @param map Map of the room
+     */
     public Item(int initialX, int initialY, Bitmap itemSprite, Map map) {
         super(itemSprite, map);
         this.itemSprite = itemSprite;
@@ -38,6 +45,9 @@ public abstract class Item extends GameObject {
         //correctScreenCoordinates(0, );
     }
 
+    /**
+     * @param canvas Canvas to draw on
+     */
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(itemSprite, screenCoordinates.x, screenCoordinates.y, null);
@@ -46,10 +56,18 @@ public abstract class Item extends GameObject {
         }
     }
 
+    /**
+     * @param canvas Canvas to draw on
+     * @param x Vertical screen coordinate
+     * @param y Horizontal screen coordinate
+     */
     public void draw(Canvas canvas, int x, int y) {
         canvas.drawBitmap(itemSprite, x, y, null);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     public void interact(Player player) {
         if (isForSale) {
             if (player.getGoldAmount() > cost) {
@@ -61,27 +79,39 @@ public abstract class Item extends GameObject {
         }
     }
 
+    /**
+     * @param cost Cost of the item
+     */
     public void setItemForSale(int cost) {
         this.cost = cost;
         isForSale = true;
         setCostText(Color.WHITE, 30);
     }
 
-    public void setCostText(int color, int textSize) {
+    private void setCostText(int color, int textSize) {
         costText = new Paint();
         costText.setColor(color);
         costText.setTextSize(textSize);
         costTextCoordinates = new Point(screenCoordinates.x, screenCoordinates.y + 90);
     }
 
+    /**
+     * @return True if item was removed from map
+     */
     public boolean checkRemoved() {
         return isRemoved;
     }
 
+    /**
+     * @return Cost of the item
+     */
     public int getCost() {
         return cost;
     }
 
+    /**
+     * @return True if item is on sale
+     */
     public boolean checkIsForSale() {
         return isForSale;
     }

@@ -13,19 +13,30 @@ public class Axe extends Item {
     }
     private static int damage = 3;
 
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param map Map of the room
+     */
     public Axe(int initialX, int initialY, Map map) {
         super(initialX, initialY, axeSprite, map);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
         super.interact(player);
         if (!player.checkMoveOver()) {
-            player.getWeapon(this, damage);
+            player.takeWeapon(this, damage);
             isRemoved = true;
         }
     }
 
+    /**
+     * @return Damage of weapon
+     */
     public static int getDamage() {
         return damage;
     }

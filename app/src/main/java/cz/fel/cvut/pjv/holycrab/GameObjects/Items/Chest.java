@@ -14,13 +14,20 @@ public class Chest extends Item {
     private Item loot;
     private boolean isOpened = false;
     private Map map;
-
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param map Map of the room
+     */
     public Chest(int initialX, int initialY, Map map) {
         super(initialX, initialY, chestSprite, map);
         this.map = map;
         loot = new Sword(mapCoordinates.x, mapCoordinates.y, map);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
         player.setMoveOver(true);
@@ -28,6 +35,9 @@ public class Chest extends Item {
         isRemoved = true;
     }
 
+    /**
+     * @param lootName Name of item to be stored in the chest
+     */
     public void addLoot(String lootName) {
         switch (lootName) {
             case "Axe":
@@ -55,14 +65,20 @@ public class Chest extends Item {
 
     }
 
-    public void open() {
+    private void open() {
         isOpened = true;
     }
 
+    /**
+     * @return Item from chest
+     */
     public Item getLoot() {
         return loot;
     }
 
+    /**
+     * @return True if chest is opened
+     */
     public boolean checkOpened() {
         return isOpened;
     }

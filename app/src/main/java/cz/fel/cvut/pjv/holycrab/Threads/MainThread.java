@@ -13,6 +13,10 @@ public class MainThread extends Thread {
     private int targetFPS = 60;
     private double averageFPS;
 
+    /**
+     * @param surfaceHolder Holder of display interface
+     * @param gameView Game view
+     */
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView) {
         super();
         this.surfaceHolder = surfaceHolder;
@@ -67,6 +71,9 @@ public class MainThread extends Thread {
         }
     }
 
+    /**
+     * @param isRunning True if thread is running
+     */
     public void setRunning(boolean isRunning) {
         running = isRunning;
     }

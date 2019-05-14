@@ -17,6 +17,12 @@ public class Djinn extends NPC {
     static {
         djinnSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.djinn);
     }
+
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param map Map of room
+     */
     public Djinn(int initialX, int initialY, Map map) {
         super(djinnSpriteSheet, map);
         setMapCoordinates(initialX, initialY);
@@ -27,6 +33,10 @@ public class Djinn extends NPC {
     private Movie movie;
     private long movieStart;
     private boolean isSpeaking;
+
+    /**
+     * @param canvas Canvas to draw on
+     */
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -35,7 +45,7 @@ public class Djinn extends NPC {
         }
     }
 
-    public void drawSpeech(Canvas canvas) {
+    private void drawSpeech(Canvas canvas) {
         long now=android.os.SystemClock.uptimeMillis();
         if (movieStart == 0)
             movieStart = now;
@@ -49,6 +59,9 @@ public class Djinn extends NPC {
         movie.draw(canvas,screenCoordinates.x - 80,screenCoordinates.y - 210);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
         player.setMoveOver(true);

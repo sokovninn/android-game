@@ -17,6 +17,11 @@ public class Pug extends NPC {
     static {
         pugSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.pug);
     }
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param map Map of room
+     */
     public Pug(int initialX, int initialY, Map map) {
         super(pugSpriteSheet, map);
         setCreatureFrontFrames(0, 64, 32, 32);
@@ -28,6 +33,10 @@ public class Pug extends NPC {
     private Movie movie;
     private long movieStart;
     private boolean isSpeaking;
+
+    /**
+     * @param  canvas Canvas to draw on
+     */
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -36,7 +45,7 @@ public class Pug extends NPC {
         }
     }
 
-    public void drawSpeech(Canvas canvas) {
+    private void drawSpeech(Canvas canvas) {
         long now=android.os.SystemClock.uptimeMillis();
         if (movieStart == 0)
             movieStart = now;
@@ -50,6 +59,9 @@ public class Pug extends NPC {
         movie.draw(canvas,screenCoordinates.x - 60,screenCoordinates.y - 180);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
         player.setMoveOver(true);

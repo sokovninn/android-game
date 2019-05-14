@@ -33,7 +33,6 @@ public class StartActivity extends Activity implements View.OnClickListener {
         loadButton.setOnClickListener(this);
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

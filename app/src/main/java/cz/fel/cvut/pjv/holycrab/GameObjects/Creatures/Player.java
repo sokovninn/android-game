@@ -6,13 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Axe;
-import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Chest;
-import cz.fel.cvut.pjv.holycrab.GameObjects.Items.HealthPotion;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Item;
-import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Key;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Ring;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Sword;
-import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Treasure;
 import cz.fel.cvut.pjv.holycrab.Views.GameView;
 import cz.fel.cvut.pjv.holycrab.Inventory;
 import cz.fel.cvut.pjv.holycrab.Environment.Map;
@@ -31,6 +27,11 @@ public class Player extends Creature {
         playerSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.dwarf);
     }
 
+    /**
+     * @param room Room in which player yes
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     */
     public Player(Room room, int initialX, int initialY) {
         super(Player.playerSpriteSheet, room.getMap());
         stepLength = Map.getTileSize();
@@ -38,6 +39,9 @@ public class Player extends Creature {
         inventory = new Inventory();
     }
 
+    /**
+     * @param moveDirection Direction of move
+     */
     public void update(Point moveDirection) {
        Point updatedCoordinates = getCoordinatesAfterUpdate(moveDirection);
        screenCoordinates.x += ((updatedCoordinates.x - mapCoordinates.x) * stepLength);
@@ -45,6 +49,10 @@ public class Player extends Creature {
        mapCoordinates = updatedCoordinates;
     }
 
+    /**
+     * @param moveDirection Direction of move
+     * @return Position after update
+     */
     public Point getCoordinatesAfterUpdate(Point moveDirection) {
         Point updatedCoordinates = new Point(mapCoordinates.x, mapCoordinates.y);
         int updatedMapX = mapCoordinates.x + moveDirection.x;
@@ -60,81 +68,132 @@ public class Player extends Creature {
 
     }
 
+    /**
+     * Increase amount of keys
+     */
     public void takeKey() {
         keysAmount++;
     }
 
+    /**
+     * @param canvas Canvas to draw on
+     */
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
 
     }
 
+    /**
+     * @return True if have at least 1 key
+     */
     public boolean hasKey() {
         return keysAmount > 0;
     }
 
+    /**
+     * Use key to open the door
+     */
     public void useKey() {
         keysAmount--;
     }
+
+    /**
+     * @param weapon Weapon to be taken
+     * @param damage Damage of weapon
+     */
     //TODO make common way to get items
-    public void getWeapon(Item weapon, int damage) {
+    public void takeWeapon(Item weapon, int damage) {
         inventory.addItemToEquipment(weapon, 4);
-        strength = damage;
+        super.setStrength(damage);
     }
+
+    /**
+     * @param ring Ring to be taken
+     */
     public void getRing(Ring ring) {
         inventory.addItemToEquipment(ring, 7);
         hitPoints++;
         maxHitPoints++;
     }
 
+    /**
+     * @param itemName Name of the item
+     */
     public void takeItem(String itemName) {
         switch (itemName) {
             case "Axe":
-                getWeapon(new Axe(0,0, map), Axe.getDamage());
+                takeWeapon(new Axe(0,0, map), Axe.getDamage());
                 break;
             case "Ring":
                 getRing(new Ring(0, 0, map));
                 break;
             case "Sword":
-                getWeapon(new Sword(0,0, map), Axe.getDamage());
+                takeWeapon(new Sword(0,0, map), Axe.getDamage());
                 break;
         }
     }
 
+    /**
+     * @param healPower Amount of hp, that can be restored
+     */
     public void heal(int healPower) {
         int updatedHitPoints = hitPoints + healPower;
         hitPoints = updatedHitPoints < maxHitPoints ? updatedHitPoints : maxHitPoints;
     }
 
-    public void getTreasure(int value) {
+    /**
+     * @param value Value of treasure
+     */
+    public void takeTreasure(int value) {
         goldAmount += value;
     }
 
+    /**
+     * @return Amount of keys
+     */
     public int getKeysAmount() {
         return keysAmount;
     }
 
+    /**
+     * @return Amount of Gold
+     */
     public int getGoldAmount() {
         return goldAmount;
     }
 
+    /**
+     * @return Players inventory
+     */
     public Inventory getInventory() {
         return inventory;
     }
 
+    /**
+     * @param cost Cost of the item
+     */
     public void buyItem(int cost) {
         goldAmount -= cost;
     }
 
+    /**
+     * @param goldAmount Amount of gold
+     */
     public void setGoldAmount(int goldAmount) {
         this.goldAmount = goldAmount;
     }
 
+    /**
+     * @param keysAmount Amount of keys
+     */
     public void setKeysAmount(int keysAmount) {
         this.keysAmount = keysAmount;
     }

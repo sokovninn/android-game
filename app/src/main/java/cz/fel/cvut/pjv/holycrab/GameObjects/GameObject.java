@@ -15,6 +15,10 @@ public abstract class GameObject implements Interactable {
     protected Point mapCoordinates;
     protected int widthpx, heightpx;
 
+    /**
+     * @param spriteSheet Image of game object
+     * @param map Map of the room
+     */
     public GameObject(Bitmap spriteSheet, Map map) {
         this.spriteSheet = spriteSheet;
         this.map = map;
@@ -26,6 +30,10 @@ public abstract class GameObject implements Interactable {
         heightpx = spriteSheet.getHeight();
     }
 
+    /**
+     * @param mapX Map X coordinate
+     * @param mapY Map Y coordinate
+     */
     public void setMapCoordinates(int mapX, int mapY) {
         this.mapCoordinates.x = mapX;
         this.mapCoordinates.y = mapY;
@@ -35,19 +43,32 @@ public abstract class GameObject implements Interactable {
 
     }
 
+    /**
+     * @param x New value of x screen coordinate
+     * @param y New value of y screen coordinate
+     */
     public void correctScreenCoordinates(int x, int y) {
         screenCoordinates.x += x;
         screenCoordinates.y += y;
     }
 
+    /**
+     * @return Map coordinates of game object
+     */
     public Point getMapCoordinates() {
         return mapCoordinates;
     }
 
+    /**
+     * @param mapArray Array with numbers of tiles
+     */
     public void setMapArray(int[][] mapArray) {
         this.mapArray = mapArray;
     }
 
+    /**
+     * @param canvas Canvas to draw on
+     */
     public abstract void draw(Canvas canvas);
 
 }

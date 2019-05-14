@@ -16,13 +16,13 @@ public class Door implements Interactable {
     public static final int rightOpenedFirstPart = 171;
     public static final int rightOpenedSecondPart = 190;
 
-    protected Room currentRoom;
-    protected Room nextRoom;
-    protected boolean isOpened;
-    protected Location location;
-    protected boolean isUsed;
+    private Room currentRoom;
+    private Room nextRoom;
+    private boolean isOpened;
+    private Location location;
+    private boolean isUsed;
 
-    public Door(Location location, Room currentRoom, Room nextRoom) {
+    Door(Location location, Room currentRoom, Room nextRoom) {
         this.location = location;
         this.currentRoom = currentRoom;
         this.nextRoom = nextRoom;
@@ -30,18 +30,30 @@ public class Door implements Interactable {
         isUsed = false;
     }
 
+    /**
+     * Open the door
+     */
     public void open() {
         isOpened = true;
     }
 
+    /**
+     * Close the door
+     */
     public void close() {
         isOpened = false;
     }
 
+    /**
+     * @return Next room after the door
+     */
     public Room getNextRoom() {
         return nextRoom;
     }
 
+    /**
+     * @param nextRoom Room after the door
+     */
     public void setNextRoom(Room nextRoom) {
         this.nextRoom = nextRoom;
     }
@@ -72,18 +84,30 @@ public class Door implements Interactable {
         }
     }
 
+    /**
+     * @return True if door was used
+     */
     public boolean checkIsUsed() {
         return isUsed;
     }
 
+    /**
+     * @return True if door is opened
+     */
     public boolean checkOpened() {
         return isOpened;
     }
 
+    /**
+     * @param isUsed True if door is used
+     */
     public void setUsed(boolean isUsed) {
         this.isUsed = isUsed;
     }
 
+    /**
+     * @return Location of the door in the room (top, down, right, left)
+     */
     public Location getLocation() {
         return location;
     }

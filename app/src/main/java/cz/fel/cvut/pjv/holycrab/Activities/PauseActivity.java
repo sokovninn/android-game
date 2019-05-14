@@ -8,7 +8,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import cz.fel.cvut.pjv.holycrab.GameObjects.GameObject;
 import cz.fel.cvut.pjv.holycrab.LevelSaver;
 import cz.fel.cvut.pjv.holycrab.R;
 import cz.fel.cvut.pjv.holycrab.Views.GameView;
@@ -34,7 +33,6 @@ public class PauseActivity extends Activity implements View.OnClickListener {
 
 
     }
-
 
     @Override
     public void onClick(View v) {

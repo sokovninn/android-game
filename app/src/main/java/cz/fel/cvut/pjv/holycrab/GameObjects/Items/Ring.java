@@ -12,11 +12,18 @@ public class Ring extends Item {
                 32 * 3, 32 * 3);
     }
     private int damage = 2;
-
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param map Map of the room
+     */
     public Ring(int initialX, int initialY, Map map) {
         super(initialX, initialY, ringSprite, map);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
         super.interact(player);

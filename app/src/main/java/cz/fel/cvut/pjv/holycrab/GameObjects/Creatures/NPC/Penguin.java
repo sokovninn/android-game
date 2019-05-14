@@ -17,6 +17,11 @@ public class Penguin extends NPC {
     static {
         penguinSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.penguin);
     }
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param map Map of room
+     */
     public Penguin(int initialX, int initialY, Map map) {
         super(penguinSpriteSheet, map);
         setMapCoordinates(initialX, initialY);
@@ -27,6 +32,10 @@ public class Penguin extends NPC {
     private Movie movie;
     private long movieStart;
     private boolean isSpeaking;
+
+    /**
+     * @param canvas Canvas to draw on
+     */
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -35,7 +44,7 @@ public class Penguin extends NPC {
         }
     }
 
-    public void drawSpeech(Canvas canvas) {
+    private void drawSpeech(Canvas canvas) {
         long now=android.os.SystemClock.uptimeMillis();
         if (movieStart == 0)
             movieStart = now;
@@ -49,6 +58,9 @@ public class Penguin extends NPC {
         movie.draw(canvas,screenCoordinates.x - 220,screenCoordinates.y - 220);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
         player.setMoveOver(true);

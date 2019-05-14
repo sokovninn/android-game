@@ -12,11 +12,18 @@ public class HealthPotion extends Item {
                 32 * 3, 32 * 3);
     }
     private int healPower = 1;
-
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param map Map of the room
+     */
     public HealthPotion(int initialX, int initialY, Map map) {
         super(initialX, initialY, healthPotionSpite, map);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
         super.interact(player);

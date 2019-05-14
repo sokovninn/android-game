@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,9 +32,12 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("Information", "Main Activity created");
+        //setting window parameters
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //creating view
         gameView = new GameView(this);
         FrameLayout game = new FrameLayout(this);
         LinearLayout gameWidgets = new LinearLayout(this);
@@ -49,12 +51,13 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
 
         game.addView(gameView);
         game.addView(gameWidgets);
-
+        //setting listeners
         gameView.setOnTouchListener(this);
         pauseButton.setOnClickListener(this);
         OnSwipeListener onSwipeListener = setOnSwipeListener();
         gestureDetector = new GestureDetector(this, onSwipeListener);
         setContentView(game);
+
         backgroundMusic = MediaPlayer.create(MainActivity.this, R.raw.rebels_be);
         backgroundMusic.setLooping(true);
         backgroundMusic.start();
@@ -71,7 +74,6 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
         Log.i("Information", "Game paused");
         Intent intent = new Intent(this, PauseActivity.class);
         startActivity(intent);
-        // re-starts this activity from game-view. add this.finish(); to remove from stack
     }
 
     @Override

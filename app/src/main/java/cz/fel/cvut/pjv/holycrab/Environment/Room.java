@@ -21,17 +21,16 @@ import cz.fel.cvut.pjv.holycrab.Location;
 
 public class Room {
 
-    public final static int topWall = 57;
-    public final static int bottomWall = 78;
-    public final static int leftWall = 76;
-    public final static int rightWall = 77;
-
-
+    private final static int topWall = 57;
+    private final static int bottomWall = 78;
+    private final static int leftWall = 76;
+    private final static int rightWall = 77;
     private static int roomsAmount = 0;
-    private Map map;
-    protected ArrayList<GameObject> gameObjects = new ArrayList<>();
 
-    protected Interactable[][] objectsOnMap;
+    private Map map;
+    private ArrayList<GameObject> gameObjects = new ArrayList<>();
+
+    private Interactable[][] objectsOnMap;
     protected Player player;
     private HashMap<Location, Door> doors = new HashMap<>();
     private int totalEnemies;
@@ -39,6 +38,10 @@ public class Room {
     private int totalNPCs;
     private int roomNumber;
 
+    /**
+     * @param gameView Game view
+     * @param mapArray Array with numbers of tiles
+     */
     public Room(GameView gameView, int[][] mapArray) {
         roomsAmount++;
         roomNumber = roomsAmount;
@@ -52,14 +55,10 @@ public class Room {
 
     }
 
-    public void initializeGameObjects() {
-        addGameObject(new Skeleton(this, 2, 1), false);
-        //Create another enemy
-        addGameObject(new Mage(this, 6, 5), false);
-
-        addGameObject(new Chest(7, 2, map), true);
-    }
-
+    /**
+     * @param gameObject Game object to add
+     * @param isItem True if object is Item
+     */
     public void addGameObject(GameObject gameObject, boolean isItem) {
         Point mapCoordinates = gameObject.getMapCoordinates();
         if (isItem) {
@@ -77,7 +76,7 @@ public class Room {
         objectsOnMap[mapCoordinates.x][mapCoordinates.y] = gameObject;
     }
 
-    public void removeGameObject(GameObject gameObject, boolean isItem) {
+    void removeGameObject(GameObject gameObject, boolean isItem) {
         Point mapCoordinates = gameObject.getMapCoordinates();
         if (isItem) {
             totalItems--;
@@ -124,7 +123,7 @@ public class Room {
         doors.put(location, door);
     }
 
-    public void openDoors() {
+    void openDoors() {
         for (java.util.Map.Entry<Location, Door> doorEntry: doors.entrySet()) {
             if (doorEntry.getValue() instanceof SteelDoor) {
                 doorEntry.getValue().open();
@@ -136,7 +135,7 @@ public class Room {
         }
     }
 
-    public void openDoor(Door door) {
+    void openDoor(Door door) {
         switch (door.getLocation()) {
             case top:
                 changeDoorTile(Door.topOpenedFirstPart, Door.topOpenedSecondPart, 0, 4);
@@ -155,21 +154,30 @@ public class Room {
 
 
 
-    public void changeDoorTile(int firstPart, int secondPart, int x, int y) {
+    private void changeDoorTile(int firstPart, int secondPart, int x, int y) {
         map.changeMapArray(x, y, firstPart);
         x = x == 4 ? x + 1 : x;
         y = y == 4 ? y + 1 : y;
         map.changeMapArray(x, y, secondPart);
     }
 
+    /**
+     * @return Map of room
+     */
     public Map getMap() {
         return map;
     }
 
-    public Player getCharacter() {
+    /**
+     * @return PLayers character
+     */
+    public Player getPlayer() {
         return player;
     }
 
+    /**
+     * @param canvas Canvas to draw on
+     */
     public void draw(Canvas canvas) {
         map.draw(canvas);
         for (GameObject gameObject: gameObjects) {
@@ -177,46 +185,67 @@ public class Room {
         }
     }
 
+    /**
+     * @return All objects in the room
+     */
     public ArrayList<GameObject> getGameObjects() {
         return gameObjects;
     }
 
-    public Interactable[][] getObjectsOnMap() {
+    Interactable[][] getObjectsOnMap() {
         return objectsOnMap;
     }
 
+    /**
+     * @param nextRoom Connected room
+     * @param location Location of door to the room
+     */
     public void setNextRoom(Room nextRoom, Location location) {
         doors.get(location).setNextRoom(nextRoom);
     }
 
-    public boolean checkEnemiesDead() {
+    boolean checkEnemiesDead() {
         return totalEnemies == 0;
     }
 
-    public void reduceEnemiesCount() {
-        totalEnemies--;
-    }
-
+    /**
+     * @return All doors in the room
+     */
     public HashMap<Location, Door> getDoors() {
         return doors;
     }
 
+    /**
+     * @return Number of room
+     */
     public int getRoomNumber() {
         return roomNumber;
     }
 
+    /**
+     * @return Enemies amount in the room
+     */
     public int getTotalEnemies() {
         return totalEnemies;
     }
 
+    /**
+     * @return Items amount in the room
+     */
     public int getTotalItems() {
         return totalItems;
     }
 
+    /**
+     * @return NPC amount in the room
+     */
     public int getTotalNPCs() {
         return totalNPCs;
     }
 
+    /**
+     * @param roomsNum Amount of rooms in the dungeon
+     */
     public static void setRoomsAmount(int roomsNum) {
         roomsAmount = roomsNum;
     }

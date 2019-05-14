@@ -15,16 +15,20 @@ public class OnSwipeListener extends GestureDetector.SimpleOnGestureListener {
         return onSwipe(direction);
     }
 
+    /**
+     * @param direction Direction of swipe
+     * @return False
+     */
     public boolean onSwipe (Direction direction) {
         return false;
     }
 
-    public Direction getDirection(float x1, float y1, float x2, float y2){
+    private Direction getDirection(float x1, float y1, float x2, float y2){
         double angle = getAngle(x1, y1, x2, y2);
         return Direction.fromAngle(angle);
     }
 
-    public double getAngle(float x1, float y1, float x2, float y2) {
+    private double getAngle(float x1, float y1, float x2, float y2) {
 
         double rad = Math.atan2(y1-y2,x2-x1) + Math.PI;
         return (rad*180/Math.PI + 180)%360;
@@ -36,6 +40,10 @@ public class OnSwipeListener extends GestureDetector.SimpleOnGestureListener {
         left,
         right;
 
+        /**
+         * @param angle Angle of swipe
+         * @return Direction
+         */
         public static Direction fromAngle(double angle){
             if(inRange(angle, 45, 135)){
                 return Direction.up;

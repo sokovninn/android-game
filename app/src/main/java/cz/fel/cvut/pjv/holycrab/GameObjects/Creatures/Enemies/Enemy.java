@@ -18,12 +18,12 @@ public abstract class Enemy extends Creature {
     private ArrayList<Point> behavior;
     private int behaviorDuration;
     private int currentMove;
-    protected boolean isActive = true;
-    protected boolean isChangingState = false;
+    boolean isActive = true;
+    boolean isChangingState = false;
     protected Player player;
-    protected int reward;
-    static Bitmap hitPointImage;
-    static int hitPointSize;
+    int reward;
+    private static Bitmap hitPointImage;
+    private static int hitPointSize;
 
     static {
         hitPointImage = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.heart_16x16);
@@ -31,7 +31,7 @@ public abstract class Enemy extends Creature {
     }
 
 
-    public Enemy(Bitmap spriteSheet, Map map, ArrayList<Point> behavior, Player player) {
+    Enemy(Bitmap spriteSheet, Map map, ArrayList<Point> behavior, Player player) {
         super(spriteSheet, map);
         this.behavior = behavior;
         this.player = player;
@@ -41,6 +41,9 @@ public abstract class Enemy extends Creature {
 
     }
 
+    /**
+     * @param characterMove Position of character after move
+     */
     public void update(Point characterMove) {
         if (isActive) {
             Point move = getCoordinatesAfterUpdate();
@@ -59,6 +62,9 @@ public abstract class Enemy extends Creature {
         }
     }
 
+    /**
+     * @return Position after move
+     */
     public Point getCoordinatesAfterUpdate() {
         Point updatedCoordinates = new Point();
         Point nextMove = behavior.get(currentMove);
@@ -67,12 +73,15 @@ public abstract class Enemy extends Creature {
         return updatedCoordinates;
     }
 
+    /**
+     * @param canvas Canvas to draw on
+     */
     public void draw(Canvas canvas) {
         super.draw(canvas);
         drawHitPoints(canvas);
     }
 
-    public void drawHitPoints(Canvas canvas) {
+    private void drawHitPoints(Canvas canvas) {
         Point coordinates = new Point();
         coordinates.x = screenCoordinates.x + widthpx / 2 - (hitPoints * hitPointSize) / 2;
         coordinates.y = screenCoordinates.y - hitPointSize / 2;
@@ -85,13 +94,13 @@ public abstract class Enemy extends Creature {
         }
     }
 
-    protected boolean checkCharacterOnTheWay(Point move, Point characterPosition, Point characterMove) {
+    boolean checkCharacterOnTheWay(Point move, Point characterPosition, Point characterMove) {
         return ((characterPosition.x == move.x) && (characterPosition.y == move.y)
                 && ((characterMove.x == mapCoordinates.x) && (characterMove.y == mapCoordinates.y)
                 || (characterMove.x == characterPosition.x) && (characterMove.y == characterPosition.y)));
     }
 
-    protected void changePosition(Point move, Point direction) {
+    void changePosition(Point move, Point direction) {
         mapCoordinates = move;
         screenCoordinates.x += direction.x * Map.getTileSize();
         screenCoordinates.y += direction.y * Map.getTileSize();
@@ -99,11 +108,17 @@ public abstract class Enemy extends Creature {
         currentMove = (currentMove == behaviorDuration) ? 0 : currentMove;
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
 
     }
 
+    /**
+     * @return Reward after defeating enemy
+     */
     public Treasure getReward() {
         return new Treasure(mapCoordinates.x, mapCoordinates.y, reward, map);
     }

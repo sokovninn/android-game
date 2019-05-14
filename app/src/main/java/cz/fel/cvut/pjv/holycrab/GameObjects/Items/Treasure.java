@@ -18,15 +18,24 @@ public class Treasure extends Item {
 
     }
     private int value;
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param numValue Number of value in array values[]
+     * @param map Map of the room
+     */
     public Treasure(int initialX, int initialY, int numValue, Map map) {
         super(initialX, initialY, treasureSprites[numValue], map);
         //correctScreenCoordinates(0, 10);
         value = values[numValue];
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
-        player.getTreasure(value);
+        player.takeTreasure(value);
         isRemoved = true;
     }
 }

@@ -28,6 +28,9 @@ public class LevelSaver {
     private BufferedWriter writer;
     private Dungeon dungeon;
 
+    /**
+     * @param dungeon Dungeon to save
+     */
     // TODO: handle exception
     public void saveLevel(Dungeon dungeon) {
         this.dungeon = dungeon;
@@ -48,7 +51,7 @@ public class LevelSaver {
             savePlayer();
             writer.close();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 

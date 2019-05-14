@@ -25,6 +25,11 @@ public class Inventory {
         }
     }
 
+    /**
+     * @param canvas Canvas to draw on
+     * @param x Horizontal coordinate
+     * @param y Vertical coordinate
+     */
     public void draw(Canvas canvas, int x, int y) {
         for (int i = 0; i < equipment.length; i++) {
             int shiftX = i * 32 * 3;
@@ -36,11 +41,15 @@ public class Inventory {
         }
     }
 
+    /**
+     * @param item Item to be added to inventory
+     * @param number Number of item in array
+     */
     public void addItemToEquipment(Item item, int number) {
         equipment[number] = item;
     }
 
-    public Item[] getEquipment() {
+    Item[] getEquipment() {
         return equipment;
     }
 }

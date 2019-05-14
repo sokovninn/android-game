@@ -12,21 +12,24 @@ public class Sword extends Item {
                 32 * 3, 32 * 3);
     }
     private static int damage = 2;
-
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param map Map of the room
+     */
     public Sword(int initialX, int initialY, Map map) {
         super(initialX, initialY,swordSprite, map);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
         super.interact(player);
         if (!player.checkMoveOver()) {
-            player.getWeapon(this, damage);
+            player.takeWeapon(this, damage);
             isRemoved = true;
         }
-    }
-
-    public static int getDamage() {
-        return damage;
     }
 }

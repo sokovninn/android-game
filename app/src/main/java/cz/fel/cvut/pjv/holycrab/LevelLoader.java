@@ -39,13 +39,18 @@ import cz.fel.cvut.pjv.holycrab.Views.GameView;
 public class LevelLoader {
     private BufferedReader reader;
     private GameView gameView;
-    Location[][] roomConnections;
+    private Location[][] roomConnections;
     private int roomCounter = 0;
 
     public LevelLoader(GameView gameView) {
         this.gameView = gameView;
     }
 
+    /**
+     * @param flag True if loading level from saved file
+     * @param context Context with information
+     * @return Dungeon which represents loaded game
+     */
     public Dungeon loadLevelFromFile(boolean flag, Context context) {
         roomCounter = 0;
         Dungeon dungeon = new Dungeon(gameView);
@@ -83,9 +88,9 @@ public class LevelLoader {
 
 
         } catch (FileNotFoundException e) {
-
+            e.printStackTrace();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
         return dungeon;
     }

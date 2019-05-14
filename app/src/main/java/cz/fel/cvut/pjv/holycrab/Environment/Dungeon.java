@@ -30,6 +30,9 @@ public class Dungeon {
     private Interactable[][] currentObjectsOnMap;
     private Player player;
 
+    /**
+     * @param gameView Game view to interact with
+     */
     public Dungeon(GameView gameView) {
         this.gameView = gameView;
         //Initialize map tiles
@@ -37,10 +40,16 @@ public class Dungeon {
         Map.initializeTileSprites(dungeonSpriteSheet, 32, 247, 1);
     }
 
+    /**
+     * @param canvas Canvas to draw on
+     */
     public void draw(Canvas canvas) {
         currentRoom.draw(canvas);
     }
 
+    /**
+     * Main part of game loop
+     */
     public void update() {
         currentGameObjects = currentRoom.getGameObjects();
         currentObjectsOnMap = currentRoom.getObjectsOnMap();
@@ -148,30 +157,51 @@ public class Dungeon {
         }
     }
 
+    /**
+     * @param rooms All rooms in dungeon
+     */
     public void setRooms(ArrayList<Room> rooms) {
         this.rooms = rooms;
     }
 
+    /**
+     * @param currentRoom Room in which player is
+     */
     public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
     }
 
+    /**
+     * @param player Players character
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
 
+    /**
+     * @return All rooms in dungeon
+     */
     public ArrayList<Room> getRooms() {
         return rooms;
     }
 
+    /**
+     * @return Room in which player is
+     */
     public Room getCurrentRoom() {
         return currentRoom;
     }
 
+    /**
+     * @return Players character
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * @return Context
+     */
     public Context getContext() {
         return gameView.getContext();
     }

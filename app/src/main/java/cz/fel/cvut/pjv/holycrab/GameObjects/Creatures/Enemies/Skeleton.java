@@ -22,8 +22,13 @@ public class Skeleton extends Enemy {
         behavior.add(new Point(0, -1));
     }
 
+    /**
+     * @param room Room in which enemy is
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     */
     public Skeleton(Room room, int initialX, int initialY) {
-        super(Skeleton.skeletonSpriteSheet, room.getMap(), behavior, room.getCharacter());
+        super(Skeleton.skeletonSpriteSheet, room.getMap(), behavior, room.getPlayer());
         setMapCoordinates(initialX, initialY);
         isChangingState = true;
         reward = 0;

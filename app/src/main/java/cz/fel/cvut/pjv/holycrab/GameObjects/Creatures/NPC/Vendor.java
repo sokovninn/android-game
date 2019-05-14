@@ -17,6 +17,11 @@ public class Vendor extends NPC {
     static {
         vendorSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.vendor);
     }
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     * @param map Map of room
+     */
     public Vendor(int initialX, int initialY, Map map) {
         super(vendorSpriteSheet, map);
         setMapCoordinates(initialX, initialY);
@@ -27,6 +32,10 @@ public class Vendor extends NPC {
     private Movie movie;
     private long movieStart;
     private boolean isSpeaking;
+
+    /**
+     * @param canvas Canvas to draw on
+     */
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -35,7 +44,7 @@ public class Vendor extends NPC {
         }
     }
 
-    public void drawSpeech(Canvas canvas) {
+    private void drawSpeech(Canvas canvas) {
         long now=android.os.SystemClock.uptimeMillis();
         if (movieStart == 0)
             movieStart = now;
@@ -49,6 +58,9 @@ public class Vendor extends NPC {
         movie.draw(canvas,screenCoordinates.x - 40,screenCoordinates.y - 180);
     }
 
+    /**
+     * @param player Player to interact with
+     */
     @Override
     public void interact(Player player) {
         player.setMoveOver(true);

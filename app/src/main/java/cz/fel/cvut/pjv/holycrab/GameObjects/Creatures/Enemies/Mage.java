@@ -27,8 +27,13 @@ public class Mage extends Enemy {
 
     }
 
+    /**
+     * @param room Room in which enemy is
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     */
     public Mage(Room room, int initialX, int initialY) {
-        super(Mage.mageSpriteSheet, room.getMap(), behavior, room.getCharacter());
+        super(Mage.mageSpriteSheet, room.getMap(), behavior, room.getPlayer());
         setMapCoordinates(initialX, initialY);
         isChangingState = true;
         reward = 1;

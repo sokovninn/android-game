@@ -18,6 +18,7 @@ public class GameOverActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("Information", "GameOverActivity created");
+        //setting window parameters
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -27,10 +28,9 @@ public class GameOverActivity extends Activity implements View.OnClickListener {
         Button returnToMenuButton = findViewById(R.id.button);
         returnToMenuButton.setOnClickListener(this);
 
-        Button tryAginButton = findViewById(R.id.button3);
-        tryAginButton.setOnClickListener(this);
+        Button tryAgainButton = findViewById(R.id.button3);
+        tryAgainButton.setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View v) {
