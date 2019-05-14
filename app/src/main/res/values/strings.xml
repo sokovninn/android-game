@@ -4,6 +4,14 @@
     <string name="give_up">Give up</string>
     <string name="fight_for_the_death">Fight for the death!</string>
     <string name="try_again">Try again</string>
-    <string name="return_to_menu">Return to menu</string>
     <string name="game_over_human">Game Over</string>
+    <string name="logo">Logo</string>
+    <string name="game_on_pause">Game on pause</string>
+    <string name="continue_game">Continue</string>
+    <string name="exit_to_menu">Exit to menu</string>
+    <string name="save">Save</string>
+    <string name="play_again">Play again</string>
+    <string name="return_to_menu">Return to menu</string>
+    <string name="you_win_text">You win</string>
+    <string name="continue_run">Continue run</string>
 </resources>

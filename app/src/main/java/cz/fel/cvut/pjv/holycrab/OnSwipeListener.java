@@ -1,6 +1,5 @@
 package cz.fel.cvut.pjv.holycrab;
 
-import android.graphics.Point;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 

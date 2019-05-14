@@ -1,0 +1,55 @@
+package cz.fel.cvut.pjv.holycrab.Activities;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+
+import cz.fel.cvut.pjv.holycrab.R;
+
+public class WinActivity extends Activity implements View.OnClickListener {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i("Information", "WinActivity created");
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        setContentView(R.layout.activity_win);
+
+        Button playAgainButton= findViewById(R.id.button7);
+        playAgainButton.setOnClickListener(this);
+
+        Button returnToMenuButton = findViewById(R.id.button8);
+        returnToMenuButton.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button7: {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            } break;
+
+            case R.id.button8: {
+                Intent intent = new Intent(this, StartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            } break;
+
+            default:
+                break;
+
+        }
+    }
+}
