@@ -1,5 +1,6 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Enemies;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -14,7 +15,10 @@ public class Mage extends Enemy {
     private static Bitmap mageSpriteSheet;
     private static ArrayList<Point> behavior;
     static {
-        mageSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.mage_dark);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            mageSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.mage_dark);
+        }
         behavior = new ArrayList<>();
         behavior.add(new Point(-1, 1));
         behavior.add(new Point(0, -1));

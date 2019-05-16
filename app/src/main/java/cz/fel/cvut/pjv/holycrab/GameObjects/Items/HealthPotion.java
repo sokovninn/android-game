@@ -1,15 +1,20 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Items;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 import cz.fel.cvut.pjv.holycrab.Environment.Map;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Player;
+import cz.fel.cvut.pjv.holycrab.Views.GameView;
 
 public class HealthPotion extends Item {
     private static Bitmap healthPotionSpite;
     static {
-        healthPotionSpite = Bitmap.createBitmap(Item.allItemsSpriteSheet, 32 * 3, 64 * 3,
-                32 * 3, 32 * 3);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            healthPotionSpite = Bitmap.createBitmap(Item.allItemsSpriteSheet, 32 * 3, 64 * 3,
+                    32 * 3, 32 * 3);
+        }
     }
     private int healPower = 1;
     /**

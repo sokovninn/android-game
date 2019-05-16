@@ -1,5 +1,6 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.NPC;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,7 +16,10 @@ import cz.fel.cvut.pjv.holycrab.R;
 public class Penguin extends NPC {
     private static Bitmap penguinSpriteSheet;
     static {
-        penguinSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.penguin);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            penguinSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.penguin);
+        }
     }
     /**
      * @param initialX X coordinate in tiles

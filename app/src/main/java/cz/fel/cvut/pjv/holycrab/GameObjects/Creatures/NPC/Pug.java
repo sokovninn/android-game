@@ -1,5 +1,6 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.NPC;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,7 +16,10 @@ import cz.fel.cvut.pjv.holycrab.R;
 public class Pug extends NPC {
     private static Bitmap pugSpriteSheet;
     static {
-        pugSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.pug);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            pugSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.pug);
+        }
     }
     /**
      * @param initialX X coordinate in tiles

@@ -8,7 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import cz.fel.cvut.pjv.holycrab.LevelSaver;
+import cz.fel.cvut.pjv.holycrab.Utils.LevelSaver;
 import cz.fel.cvut.pjv.holycrab.R;
 import cz.fel.cvut.pjv.holycrab.Views.GameView;
 

@@ -1,5 +1,6 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Enemies;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -26,8 +27,11 @@ public abstract class Enemy extends Creature {
     private static int hitPointSize;
 
     static {
-        hitPointImage = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.heart_16x16);
-        hitPointSize = hitPointImage.getWidth();
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            hitPointImage = BitmapFactory.decodeResource(resources, R.drawable.heart_16x16);
+            hitPointSize = hitPointImage.getWidth();
+        }
     }
 
 
@@ -113,7 +117,7 @@ public abstract class Enemy extends Creature {
      */
     @Override
     public void interact(Player player) {
-
+        player.setMoveOver(true);
     }
 
     /**
@@ -121,5 +125,19 @@ public abstract class Enemy extends Creature {
      */
     public Treasure getReward() {
         return new Treasure(mapCoordinates.x, mapCoordinates.y, reward, map);
+    }
+
+    /**
+     * @param target Player to follow
+     */
+    public void setTargetPlayer(Creature target) {
+        player = (Player)target;
+    }
+
+    /**
+     * @param behavior Behavior which defines enemy movement
+     */
+    public void setBehavior(ArrayList<Point> behavior) {
+        this.behavior = behavior;
     }
 }

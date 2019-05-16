@@ -1,4 +1,4 @@
-package cz.fel.cvut.pjv.holycrab;
+package cz.fel.cvut.pjv.holycrab.Utils;
 
 import android.content.Context;
 import android.util.Log;
@@ -34,6 +34,8 @@ import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Key;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Ring;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Sword;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Treasure;
+import cz.fel.cvut.pjv.holycrab.Location;
+import cz.fel.cvut.pjv.holycrab.R;
 import cz.fel.cvut.pjv.holycrab.Views.GameView;
 
 public class LevelLoader {

@@ -70,9 +70,8 @@ public abstract class Item extends GameObject {
      */
     public void interact(Player player) {
         if (isForSale) {
-            if (player.getGoldAmount() > cost) {
+            if (player.getGoldAmount() >= cost) {
                 player.buyItem(cost);
-                isForSale = false;
             } else {
                 player.setMoveOver(true);
             }

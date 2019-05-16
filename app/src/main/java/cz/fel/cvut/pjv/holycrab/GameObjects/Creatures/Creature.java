@@ -8,28 +8,25 @@ import cz.fel.cvut.pjv.holycrab.Environment.Map;
 
 public abstract class Creature extends GameObject {
     private Bitmap[] creatureFrontFrames;
-    private int currentFrame;
-    private long previousFrameChangeTime, frameLength;
-    protected int maxHitPoints;
-    protected int hitPoints;
-    private int strength;
-    private boolean isDead;
-    private boolean isMoveOver;
+    private int currentFrame = 0;
+    private long previousFrameChangeTime = 0;
+    private long frameLength = 500;
+    protected int maxHitPoints = 3;
+    protected int hitPoints = 3;
+    private int strength = 1;
+    private boolean isDead = false;
+    private boolean isMoveOver = false;
 
     public Creature(Bitmap spriteSheet, Map map) {
         super(spriteSheet, map);
-        setCreatureFrontFrames(0,64,24,32);
-        currentFrame = 0;
-        previousFrameChangeTime = 0;
-        frameLength = 500;
-        widthpx = creatureFrontFrames[0].getWidth();
-        heightpx = creatureFrontFrames[0].getHeight();
-        setMapCoordinates(mapArray[0].length / 2, mapArray.length / 2);
-        maxHitPoints = 3;
-        hitPoints = maxHitPoints;
-        strength = 1;
-        isDead = false;
-        isMoveOver = false;
+        if (spriteSheet != null) {
+            setCreatureFrontFrames(0, 64, 24, 32);
+            widthpx = creatureFrontFrames[0].getWidth();
+            heightpx = creatureFrontFrames[0].getHeight();
+        }
+        if (map != null) {
+            setMapCoordinates(mapArray[0].length / 2, mapArray.length / 2);
+        }
 
     }
 

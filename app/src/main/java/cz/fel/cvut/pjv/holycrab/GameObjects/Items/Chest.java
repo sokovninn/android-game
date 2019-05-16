@@ -1,15 +1,20 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Items;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 import cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Player;
 import cz.fel.cvut.pjv.holycrab.Environment.Map;
+import cz.fel.cvut.pjv.holycrab.Views.GameView;
 
 public class Chest extends Item {
     static Bitmap chestSprite;
     static {
-        chestSprite = Bitmap.createBitmap(Item.allChestsSpriteSheet, 0, 0,
-                32 * 3, 32 * 3);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            chestSprite = Bitmap.createBitmap(Item.allChestsSpriteSheet, 0, 0,
+                    32 * 3, 32 * 3);
+        }
     }
     private Item loot;
     private boolean isOpened = false;

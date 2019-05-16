@@ -1,15 +1,23 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Items;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import cz.fel.cvut.pjv.holycrab.Environment.Map;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Player;
+import cz.fel.cvut.pjv.holycrab.R;
+import cz.fel.cvut.pjv.holycrab.Views.GameView;
 
 public class Axe extends Item {
     private static Bitmap axeSprite;
     static {
-        axeSprite = Bitmap.createBitmap(Item.allItemsSpriteSheet, 96 * 3, 0,
-                32 * 3, 32 * 3);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            axeSprite = Bitmap.createBitmap(Item.allItemsSpriteSheet, 96 * 3, 0,
+                    32 * 3, 32 * 3);
+        }
+
     }
     private static int damage = 3;
 

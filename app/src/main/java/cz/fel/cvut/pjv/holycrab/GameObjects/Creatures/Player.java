@@ -1,5 +1,6 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Creatures;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,12 +12,11 @@ import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Ring;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Sword;
 import cz.fel.cvut.pjv.holycrab.Views.GameView;
 import cz.fel.cvut.pjv.holycrab.Inventory;
-import cz.fel.cvut.pjv.holycrab.Environment.Map;
 import cz.fel.cvut.pjv.holycrab.R;
 import cz.fel.cvut.pjv.holycrab.Environment.Room;
 
 public class Player extends Creature {
-    private int stepLength;
+    private int stepLength = 96;
     private static Bitmap playerSpriteSheet;
     private int keysAmount = 0;
     private int goldAmount = 10;
@@ -24,7 +24,20 @@ public class Player extends Creature {
     private Inventory inventory;
 
     static {
-        playerSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.dwarf);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            playerSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.dwarf);
+        }
+    }
+
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     */
+    public Player(int initialX, int initialY) {
+        super(Player.playerSpriteSheet, null);
+        setMapCoordinates(initialX, initialY);
+        inventory = new Inventory();
     }
 
     /**
@@ -34,7 +47,6 @@ public class Player extends Creature {
      */
     public Player(Room room, int initialX, int initialY) {
         super(Player.playerSpriteSheet, room.getMap());
-        stepLength = Map.getTileSize();
         setMapCoordinates(initialX, initialY);
         inventory = new Inventory();
     }
@@ -80,7 +92,6 @@ public class Player extends Creature {
      */
     public void draw(Canvas canvas) {
         super.draw(canvas);
-
     }
 
     /**
@@ -88,7 +99,7 @@ public class Player extends Creature {
      */
     @Override
     public void interact(Player player) {
-
+        setMoveOver(true);
     }
 
     /**
@@ -118,7 +129,7 @@ public class Player extends Creature {
     /**
      * @param ring Ring to be taken
      */
-    public void getRing(Ring ring) {
+    public void takeRing(Ring ring) {
         inventory.addItemToEquipment(ring, 7);
         hitPoints++;
         maxHitPoints++;
@@ -133,7 +144,7 @@ public class Player extends Creature {
                 takeWeapon(new Axe(0,0, map), Axe.getDamage());
                 break;
             case "Ring":
-                getRing(new Ring(0, 0, map));
+                takeRing(new Ring(0, 0, map));
                 break;
             case "Sword":
                 takeWeapon(new Sword(0,0, map), Axe.getDamage());

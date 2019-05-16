@@ -1,5 +1,6 @@
 package cz.fel.cvut.pjv.holycrab;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,12 +16,15 @@ public class Inventory {
 
 
     public Inventory() {
-        allEmptySlotsSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.empty_slots);
-        int i = 0;
-        for (int y = 0; y < 64; y += 32) {
-            for (int x = 0; x < 128; x +=32) {
-                emptySlots[i++] = Bitmap.createBitmap(allEmptySlotsSpriteSheet, x * 3, y * 3,
-                        32 * 3, 32 * 3);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            allEmptySlotsSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.empty_slots);
+            int i = 0;
+            for (int y = 0; y < 64; y += 32) {
+                for (int x = 0; x < 128; x += 32) {
+                    emptySlots[i++] = Bitmap.createBitmap(allEmptySlotsSpriteSheet, x * 3, y * 3,
+                            32 * 3, 32 * 3);
+                }
             }
         }
     }
@@ -49,7 +53,10 @@ public class Inventory {
         equipment[number] = item;
     }
 
-    Item[] getEquipment() {
+    /**
+     * @return Full equipment
+     */
+    public Item[] getEquipment() {
         return equipment;
     }
 }

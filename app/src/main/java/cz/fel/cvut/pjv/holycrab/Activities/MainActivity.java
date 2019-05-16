@@ -57,7 +57,7 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
         OnSwipeListener onSwipeListener = setOnSwipeListener();
         gestureDetector = new GestureDetector(this, onSwipeListener);
         setContentView(game);
-
+        //setting background music
         backgroundMusic = MediaPlayer.create(MainActivity.this, R.raw.rebels_be);
         backgroundMusic.setLooping(true);
         backgroundMusic.start();

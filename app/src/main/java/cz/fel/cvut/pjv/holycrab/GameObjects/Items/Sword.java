@@ -1,15 +1,20 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Items;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 import cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Player;
 import cz.fel.cvut.pjv.holycrab.Environment.Map;
+import cz.fel.cvut.pjv.holycrab.Views.GameView;
 
 public class Sword extends Item {
     private static Bitmap swordSprite;
     static {
-        swordSprite = Bitmap.createBitmap(Item.allItemsSpriteSheet, 0, 0,
-                32 * 3, 32 * 3);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            swordSprite = Bitmap.createBitmap(Item.allItemsSpriteSheet, 0, 0,
+                    32 * 3, 32 * 3);
+        }
     }
     private static int damage = 2;
     /**

@@ -1,6 +1,7 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Enemies;
 
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -13,11 +14,26 @@ import cz.fel.cvut.pjv.holycrab.Views.GameView;
 public class Arachne extends Enemy {
     private static Bitmap arachneSpriteSheet;
     static {
-        arachneSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.arachne);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            arachneSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.arachne);
+        }
 
     }
     private Point direction = new Point();
 
+    /**
+     * @param initialX X coordinate in tiles
+     * @param initialY Y coordinate in tiles
+     */
+    public Arachne(int initialX, int initialY) {
+        super(arachneSpriteSheet, null, null, null);
+        setMapCoordinates(initialX, initialY);
+        maxHitPoints = 10;
+        isChangingState = true;
+        hitPoints = maxHitPoints;
+        reward = 3;
+    }
     /**
      * @param room Room in which Enemy is
      * @param initialX X coordinate in tiles
@@ -33,7 +49,7 @@ public class Arachne extends Enemy {
     }
 
     /**
-     * @param characterMove Postion of players character after move
+     * @param characterMove Position of players character after move
      */
     @Override
     public void update(Point characterMove) {
@@ -45,6 +61,7 @@ public class Arachne extends Enemy {
             } else {
                 if (move.x == characterMove.x && move.y == characterMove.y) {
                     attack(player);
+                    heal();
                 }
                 changePosition(move, direction);
             }
@@ -52,6 +69,10 @@ public class Arachne extends Enemy {
         } else {
             isActive = true;
         }
+    }
+
+    private void heal() {
+        hitPoints = hitPoints + 1 > maxHitPoints ? maxHitPoints : hitPoints + 1;
     }
 
     /**

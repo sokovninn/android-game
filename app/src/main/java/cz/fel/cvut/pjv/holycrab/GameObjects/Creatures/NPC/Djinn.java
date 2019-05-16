@@ -1,5 +1,6 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.NPC;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,7 +16,10 @@ import cz.fel.cvut.pjv.holycrab.R;
 public class Djinn extends NPC {
     private static Bitmap djinnSpriteSheet;
     static {
-        djinnSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.djinn);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            djinnSpriteSheet = BitmapFactory.decodeResource(resources, R.drawable.djinn);
+        }
     }
 
     /**

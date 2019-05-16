@@ -13,7 +13,7 @@ import cz.fel.cvut.pjv.holycrab.Activities.WinActivity;
 import cz.fel.cvut.pjv.holycrab.Environment.Room;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Player;
 import cz.fel.cvut.pjv.holycrab.Environment.Dungeon;
-import cz.fel.cvut.pjv.holycrab.LevelLoader;
+import cz.fel.cvut.pjv.holycrab.Utils.LevelLoader;
 import cz.fel.cvut.pjv.holycrab.UserInterface;
 import cz.fel.cvut.pjv.holycrab.Threads.MainThread;
 
@@ -21,8 +21,8 @@ import cz.fel.cvut.pjv.holycrab.Threads.MainThread;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private Player player;
-    public static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    public static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    public static int screenWidth;
+    public static int screenHeight;
     private Point moveDirection = new Point();
     private Context context;
     private static Dungeon dungeon;
@@ -38,6 +38,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public GameView(Context context) {
         super(context);
         this.context = context;
+        screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);

@@ -34,6 +34,7 @@ public class Dungeon {
      * @param gameView Game view to interact with
      */
     public Dungeon(GameView gameView) {
+        Log.i("Information", "Dungeon created");
         this.gameView = gameView;
         //Initialize map tiles
         Bitmap dungeonSpriteSheet = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.dungeon);
@@ -120,7 +121,7 @@ public class Dungeon {
             currentObjectsOnMap[characterMove.x][characterMove.y] = treasure;
             currentGameObjects.add(0, treasure);
             if (currentRoom.checkEnemiesDead()) {
-                Log.i("Information", "Room complete");
+                Log.i("Information", "Room completed");
                 currentRoom.openDoors();
             }
         }

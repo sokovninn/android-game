@@ -11,8 +11,8 @@ public abstract class GameObject implements Interactable {
     protected Bitmap spriteSheet;
     protected Map map;
     protected int[][] mapArray;
-    protected Point screenCoordinates;
-    protected Point mapCoordinates;
+    protected Point screenCoordinates = new Point(0, 0);
+    protected Point mapCoordinates = new Point(0, 0);
     protected int widthpx, heightpx;
 
     /**
@@ -20,14 +20,28 @@ public abstract class GameObject implements Interactable {
      * @param map Map of the room
      */
     public GameObject(Bitmap spriteSheet, Map map) {
-        this.spriteSheet = spriteSheet;
-        this.map = map;
-        mapArray = map.getMapArray();
-        //Initialization of standard start position
-        mapCoordinates = new Point();
-        screenCoordinates = new Point();
-        widthpx = spriteSheet.getWidth();
-        heightpx = spriteSheet.getHeight();
+        if (spriteSheet != null) {
+            this.spriteSheet = spriteSheet;
+            widthpx = spriteSheet.getWidth();
+            heightpx = spriteSheet.getHeight();
+        }
+        if (map != null) {
+            this.map = map;
+            mapArray = map.getMapArray();
+        } else {
+            mapArray = new int[][] {
+                    {3, 57, 57, 57, 57, 57, 57, 57, 57, 4},
+                    {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                    {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                    {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                    {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                    {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                    {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                    {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                    {76, 6, 6, 6, 6, 6, 6, 6, 6, 77},
+                    {22, 78, 78, 78, 78, 78, 78, 78, 78, 23},
+            };
+        }
     }
 
     /**
@@ -37,9 +51,11 @@ public abstract class GameObject implements Interactable {
     public void setMapCoordinates(int mapX, int mapY) {
         this.mapCoordinates.x = mapX;
         this.mapCoordinates.y = mapY;
-        Point tileCoordinates = map.convertMapToScreenCoordinates(new Point(mapX, mapY));
-        screenCoordinates.x = tileCoordinates.x + (Map.getTileSize()  - widthpx) / 2;
-        screenCoordinates.y = tileCoordinates.y; //TODO Find better way
+        if (map != null) {
+            Point tileCoordinates = map.convertMapToScreenCoordinates(new Point(mapX, mapY));
+            screenCoordinates.x = tileCoordinates.x + (Map.getTileSize() - widthpx) / 2;
+            screenCoordinates.y = tileCoordinates.y;
+        }
 
     }
 

@@ -1,5 +1,6 @@
 package cz.fel.cvut.pjv.holycrab.GameObjects.Items;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -12,12 +13,15 @@ public class InteriorItem extends Item {
     static Bitmap allInteriorItemsSpriteSheet;
     static Bitmap[] interiorItemSprites;
     static {
-        allInteriorItemsSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.interior);
-        interiorItemSprites = new Bitmap[10];
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 5; j++) {
-                interiorItemSprites[i * 5 + j] = Bitmap.createBitmap(allInteriorItemsSpriteSheet, j * 32 * 3, i * 32 * 3,
-                        32 * 3, 32 * 3);
+        Resources resources = GameView.getGameResources();
+        if (resources != null) {
+            allInteriorItemsSpriteSheet = BitmapFactory.decodeResource(GameView.getGameResources(), R.drawable.interior);
+            interiorItemSprites = new Bitmap[10];
+            for (int i = 0; i < 2; i++) {
+                for (int j = 0; j < 5; j++) {
+                    interiorItemSprites[i * 5 + j] = Bitmap.createBitmap(allInteriorItemsSpriteSheet, j * 32 * 3, i * 32 * 3,
+                            32 * 3, 32 * 3);
+                }
             }
         }
 

@@ -6,17 +6,14 @@ import android.graphics.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Enemies.Mage;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.NPC.NPC;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Player;
-import cz.fel.cvut.pjv.holycrab.GameObjects.Creatures.Enemies.Skeleton;
 import cz.fel.cvut.pjv.holycrab.Environment.Doors.Door;
 import cz.fel.cvut.pjv.holycrab.Environment.Doors.SteelDoor;
 import cz.fel.cvut.pjv.holycrab.Environment.Doors.WoodenDoor;
 import cz.fel.cvut.pjv.holycrab.GameObjects.GameObject;
 import cz.fel.cvut.pjv.holycrab.Views.GameView;
 import cz.fel.cvut.pjv.holycrab.Interactable;
-import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Chest;
 import cz.fel.cvut.pjv.holycrab.Location;
 
 public class Room {
@@ -46,10 +43,12 @@ public class Room {
         roomsAmount++;
         roomNumber = roomsAmount;
         map = new Map(mapArray, mapArray.length, mapArray[0].length);
-        if (gameView.getPlayer() == null) {
-            gameView.setPlayer(new Player(this, 4, 4));
+        if (gameView != null) {
+            if (gameView.getPlayer() == null) {
+                gameView.setPlayer(new Player(this, 4, 4));
+            }
+            player = gameView.getPlayer();
         }
-        player = gameView.getPlayer();
         objectsOnMap = new Interactable[mapArray.length][mapArray[0].length];
         initializeDoors();
 

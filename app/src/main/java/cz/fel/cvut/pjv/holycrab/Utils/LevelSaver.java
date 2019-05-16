@@ -1,4 +1,4 @@
-package cz.fel.cvut.pjv.holycrab;
+package cz.fel.cvut.pjv.holycrab.Utils;
 
 import android.content.Context;
 import android.os.Environment;
@@ -23,6 +23,7 @@ import cz.fel.cvut.pjv.holycrab.GameObjects.GameObject;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Chest;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Item;
 import cz.fel.cvut.pjv.holycrab.GameObjects.Items.Ring;
+import cz.fel.cvut.pjv.holycrab.Location;
 
 public class LevelSaver {
     private BufferedWriter writer;
@@ -78,9 +79,9 @@ public class LevelSaver {
         writer.write("Keys: " + player.getKeysAmount());
         writer.newLine();
         Item[] equipemnt = player.getInventory().getEquipment();
-        for (int i = 0; i < equipemnt.length; i++) {
-            if (equipemnt[i] != null) {
-                writer.write(equipemnt[i].getClass().getSimpleName() + " ");
+        for (Item anEquipemnt : equipemnt) {
+            if (anEquipemnt != null) {
+                writer.write(anEquipemnt.getClass().getSimpleName() + " ");
             }
         }
 
